@@ -8,6 +8,9 @@ import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 
+import * as fs from "fs";
+import * as path from "path";
+
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
 
 const STATIC_PATH =
@@ -39,6 +42,18 @@ app.get("/api/products/count", async (_req, res) => {
     session: res.locals.shopify.session,
   });
   res.status(200).send(countData);
+});
+
+app.get("/api/map-data", async (req, res, next) => {
+  try {
+    var geoJson = JSON.parse(
+      fs.readFileSync(path.resolve("./geodata/postcodedistricts.json"), "utf8")
+    );
+    res.json(geoJson);
+  } catch (ex) {
+    console.error(ex);
+    next({ status: 400, message: ex });
+  }
 });
 
 app.get("/api/products/create", async (_req, res) => {

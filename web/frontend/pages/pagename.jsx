@@ -20,7 +20,7 @@ export default function PageName() {
       <Layout>
         <Layout.Section>
           <Card sectioned>
-            <Heading>Heading Foo</Heading>
+            <Heading>Heading d</Heading>
             <TextContainer>
               <p>Body</p>
             </TextContainer>
