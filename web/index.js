@@ -11,6 +11,7 @@ import GDPRWebhookHandlers from "./gdpr.js";
 import * as fs from "fs";
 import * as path from "path";
 
+// @ts-ignore
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
 
 const STATIC_PATH =
@@ -29,6 +30,7 @@ app.get(
 );
 app.post(
   shopify.config.webhooks.path,
+  // @ts-ignore
   shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
 );
 
@@ -72,6 +74,7 @@ app.get("/api/products/create", async (_req, res) => {
 
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
+// eslint-disable-next-line no-unused-vars
 app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res, _next) => {
   return res
     .status(200)
