@@ -7,6 +7,7 @@ import serveStatic from "serve-static";
 import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
+import { GraphqlQueryError } from "@shopify/shopify-api";
 
 import * as fs from "fs";
 import * as path from "path";
@@ -55,6 +56,95 @@ app.get("/api/map-data", async (req, res, next) => {
   } catch (ex) {
     console.error(ex);
     next({ status: 400, message: ex });
+  }
+});
+
+app.get("/api/export-orders", async (req, res, next) => {
+  const session = res.locals.shopify.session;
+  const client = new shopify.api.clients.Graphql({ session });
+
+  const query = `mutation {
+    bulkOperationRunQuery(
+     query: """
+      {
+        products {
+          edges {
+            node {
+              id
+              title
+            }
+          }
+        }
+      }
+      """
+    ) {
+      bulkOperation {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }`;
+
+  try {
+    const response = await client.query({
+      data: {
+        query,
+      },
+    });
+
+    res.json(response.body);
+  } catch (error) {
+    if (error instanceof GraphqlQueryError) {
+      throw new Error(
+        `${error.message}\n${JSON.stringify(error.response, null, 2)}`
+      );
+    } else {
+      throw error;
+    }
+  }
+});
+
+app.post("/api/check-export-status", async (req, res, next) => {
+  console.log(req.body);
+  const session = res.locals.shopify.session;
+  const client = new shopify.api.clients.Graphql({ session });
+
+  const query = `{
+    node(id: "${req.body.id}") {
+      ... on BulkOperation {
+        id
+        status
+        errorCode
+        createdAt
+        completedAt
+        objectCount
+        fileSize
+        url
+        partialDataUrl
+      }
+    }
+  }`;
+
+  try {
+    const response = await client.query({
+      data: {
+        query,
+      },
+    });
+
+    res.json(response.body);
+  } catch (error) {
+    if (error instanceof GraphqlQueryError) {
+      throw new Error(
+        `${error.message}\n${JSON.stringify(error.response, null, 2)}`
+      );
+    } else {
+      throw error;
+    }
   }
 });
 

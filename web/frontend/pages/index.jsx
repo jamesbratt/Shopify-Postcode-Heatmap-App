@@ -6,8 +6,11 @@ import { TitleBar } from "@shopify/app-bridge-react";
 
 import UkPostcodeMap from "../components/UkPostcodeMap";
 
+import { useAuthenticatedFetch } from "../hooks";
+
 export default function HomePage() {
   const mapContainerRef = useRef();
+  const fetch = useAuthenticatedFetch();
 
   const getMapDimensions = () => {
     return mapContainerRef.current
@@ -16,6 +19,24 @@ export default function HomePage() {
           height: mapContainerRef.current.offsetWidth,
         }
       : { width: 0, height: 0 };
+  };
+
+  const onChange = async () => {
+    const response = await fetch("/api/export-orders");
+    const jsonResponse = await response.json();
+
+    const response2 = await fetch("/api/check-export-status", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: jsonResponse.data.bulkOperationRunQuery.bulkOperation.id,
+      }),
+    });
+    const jsonResponse2 = await response2.json();
+
+    console.log(jsonResponse2);
   };
 
   const options = [
@@ -52,7 +73,7 @@ export default function HomePage() {
             <Select
               label="Date Range"
               options={options}
-              onChange={() => {}}
+              onChange={onChange}
               value={"today"}
             />
           </Card>
