@@ -9,8 +9,11 @@ import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 import { GraphqlQueryError } from "@shopify/shopify-api";
 
+import got from "got";
+
 import * as fs from "fs";
 import * as path from "path";
+import * as readline from "readline";
 
 // @ts-ignore
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
@@ -67,11 +70,13 @@ app.get("/api/export-orders", async (req, res, next) => {
     bulkOperationRunQuery(
      query: """
       {
-        products {
+        orders {
           edges {
             node {
               id
-              title
+              shippingAddress {
+                zip
+              }
             }
           }
         }
@@ -109,7 +114,6 @@ app.get("/api/export-orders", async (req, res, next) => {
 });
 
 app.post("/api/check-export-status", async (req, res, next) => {
-  console.log(req.body);
   const session = res.locals.shopify.session;
   const client = new shopify.api.clients.Graphql({ session });
 
@@ -146,6 +150,20 @@ app.post("/api/check-export-status", async (req, res, next) => {
       throw error;
     }
   }
+});
+
+app.post("/api/stream", async (req, res) => {
+  const rl = readline.createInterface({
+    input: got.stream(req.body.url),
+  });
+
+  const results = [];
+
+  for await (const line of rl) {
+    results.push(JSON.parse(line));
+  }
+
+  return res.json(results);
 });
 
 app.get("/api/products/create", async (_req, res) => {

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { Card, Page, Layout, Select, Button } from "@shopify/polaris";
 
@@ -12,6 +12,8 @@ export default function HomePage() {
   const mapContainerRef = useRef();
   const fetch = useAuthenticatedFetch();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const getMapDimensions = () => {
     return mapContainerRef.current
       ? {
@@ -21,22 +23,52 @@ export default function HomePage() {
       : { width: 0, height: 0 };
   };
 
-  const onChange = async () => {
-    const response = await fetch("/api/export-orders");
-    const jsonResponse = await response.json();
-
-    const response2 = await fetch("/api/check-export-status", {
+  const readFromStream = async (url) => {
+    const response = await fetch("/api/stream", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: jsonResponse.data.bulkOperationRunQuery.bulkOperation.id,
+        url,
       }),
     });
-    const jsonResponse2 = await response2.json();
+    const jsonResponse = await response.json();
+  };
 
-    console.log(jsonResponse2);
+  const checkBulkOperation = (bulkOperationId) => {
+    let timer;
+    const poll = async () => {
+      const response = await fetch("/api/check-export-status", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: bulkOperationId,
+        }),
+      });
+      const jsonResponse = await response.json();
+
+      if (jsonResponse.data.node.status === "COMPLETED") {
+        clearTimeout(timer);
+        readFromStream(jsonResponse.data.node.url);
+      } else {
+        timer = setTimeout(poll, 10000);
+      }
+    };
+
+    poll();
+  };
+
+  const onChange = async () => {
+    setIsLoading(true);
+    const response = await fetch("/api/export-orders");
+    const jsonResponse = await response.json();
+
+    checkBulkOperation(
+      jsonResponse.data.bulkOperationRunQuery.bulkOperation.id
+    );
   };
 
   const options = [
