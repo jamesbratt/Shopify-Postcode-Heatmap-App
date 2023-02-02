@@ -70,7 +70,7 @@ app.get("/api/export-orders", async (req, res, next) => {
     bulkOperationRunQuery(
      query: """
       {
-        orders {
+        orders(query: "created_at:>=2020-01-01 AND created_at:<2023-05-01") {
           edges {
             node {
               id
@@ -153,14 +153,35 @@ app.post("/api/check-export-status", async (req, res, next) => {
 });
 
 app.post("/api/stream", async (req, res) => {
+  const getDistrictCode = (postcode) => {
+    const trimmedPostcode = postcode.replace(/\s+/g, "");
+    const districtCode = trimmedPostcode.substring(0, 2).trim();
+    if (!isNaN(parseInt(districtCode.split("")[1]))) {
+      return trimmedPostcode.substring(0, 1).trim();
+    }
+
+    return districtCode;
+  };
+
   const rl = readline.createInterface({
     input: got.stream(req.body.url),
   });
 
-  const results = [];
+  let results = {};
 
   for await (const line of rl) {
-    results.push(JSON.parse(line));
+    const parsedData = JSON.parse(line);
+
+    const postcode = parsedData?.shippingAddress?.zip;
+
+    if (postcode !== null && postcode !== undefined) {
+      const districtCode = getDistrictCode(postcode);
+      if (results[districtCode] === undefined) {
+        results[districtCode] = 1;
+      } else {
+        results.districtCode = results[districtCode] + 1;
+      }
+    }
   }
 
   return res.json(results);

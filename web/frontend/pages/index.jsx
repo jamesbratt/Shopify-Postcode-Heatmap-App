@@ -1,6 +1,14 @@
 import React, { useRef, useState } from "react";
 
-import { Card, Page, Layout, Select, Button } from "@shopify/polaris";
+import {
+  Card,
+  Page,
+  Layout,
+  Select,
+  Button,
+  Spinner,
+  Banner,
+} from "@shopify/polaris";
 
 import { TitleBar } from "@shopify/app-bridge-react";
 
@@ -8,11 +16,16 @@ import UkPostcodeMap from "../components/UkPostcodeMap";
 
 import { useAuthenticatedFetch } from "../hooks";
 
+const SERVER_ERROR_MESSAGE =
+  "We are really sorry. Something unexpected has gone wrong retreiving your order data. Please try again.";
+
 export default function HomePage() {
   const mapContainerRef = useRef();
   const fetch = useAuthenticatedFetch();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [postcodeData, setPostcodeData] = useState(null);
 
   const getMapDimensions = () => {
     return mapContainerRef.current
@@ -24,37 +37,64 @@ export default function HomePage() {
   };
 
   const readFromStream = async (url) => {
-    const response = await fetch("/api/stream", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        url,
-      }),
-    });
-    const jsonResponse = await response.json();
-  };
-
-  const checkBulkOperation = (bulkOperationId) => {
-    let timer;
-    const poll = async () => {
-      const response = await fetch("/api/check-export-status", {
+    try {
+      const response = await fetch("/api/stream", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: bulkOperationId,
+          url,
         }),
       });
       const jsonResponse = await response.json();
+      setPostcodeData(jsonResponse);
+      setIsLoading(false);
+    } catch ({ message }) {
+      console.error(message);
+      setError(SERVER_ERROR_MESSAGE);
+      setIsLoading(false);
+    }
+  };
 
-      if (jsonResponse.data.node.status === "COMPLETED") {
-        clearTimeout(timer);
-        readFromStream(jsonResponse.data.node.url);
-      } else {
-        timer = setTimeout(poll, 10000);
+  const checkBulkOperation = (bulkOperationId) => {
+    let timer;
+    const poll = async () => {
+      try {
+        const response = await fetch("/api/check-export-status", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: bulkOperationId,
+          }),
+        });
+        const jsonResponse = await response.json();
+
+        if (
+          jsonResponse.data.node.status === "COMPLETED" &&
+          jsonResponse.data.node.url
+        ) {
+          clearTimeout(timer);
+          readFromStream(jsonResponse.data.node.url);
+        } else if (
+          jsonResponse.data.node.status === "COMPLETED" &&
+          !jsonResponse.data.node.url
+        ) {
+          clearTimeout(timer);
+          setIsLoading(false);
+        } else if (jsonResponse.data.node.status === "FAILED") {
+          clearTimeout(timer);
+          setIsLoading(false);
+          throw Error(SERVER_ERROR_MESSAGE);
+        } else {
+          timer = setTimeout(poll, 10000);
+        }
+      } catch ({ message }) {
+        console.error(message);
+        setError(SERVER_ERROR_MESSAGE);
+        setIsLoading(false);
       }
     };
 
@@ -62,13 +102,28 @@ export default function HomePage() {
   };
 
   const onChange = async () => {
+    setError(null);
     setIsLoading(true);
-    const response = await fetch("/api/export-orders");
-    const jsonResponse = await response.json();
 
-    checkBulkOperation(
-      jsonResponse.data.bulkOperationRunQuery.bulkOperation.id
-    );
+    try {
+      const response = await fetch("/api/export-orders");
+      const jsonResponse = await response.json();
+
+      const bulkOperationId =
+        jsonResponse?.data?.bulkOperationRunQuery?.bulkOperation?.id;
+
+      if (!bulkOperationId) {
+        throw Error("No bulk operation ID was created");
+      }
+
+      checkBulkOperation(
+        jsonResponse.data.bulkOperationRunQuery.bulkOperation.id
+      );
+    } catch ({ message }) {
+      console.error(message);
+      setError(SERVER_ERROR_MESSAGE);
+      setIsLoading(false);
+    }
   };
 
   const options = [
@@ -93,10 +148,28 @@ export default function HomePage() {
     <Page>
       <TitleBar title="UK Customer Heatmap" primaryAction={null} />
       <Layout>
+        {error && (
+          <Layout.Section>
+            <Banner
+              title="We were unable to retrieve your order data"
+              action={{ content: "Try Again", onAction: onChange }}
+              status="critical"
+            >
+              <p>{error}</p>
+            </Banner>
+          </Layout.Section>
+        )}
         <Layout.Section>
           <Card title="UK Order Density by Postcode District" sectioned>
             <div ref={mapContainerRef}>
-              <UkPostcodeMap getMapDimensions={getMapDimensions} />
+              {isLoading ? (
+                <Spinner accessibilityLabel="Spinner example" size="large" />
+              ) : (
+                <UkPostcodeMap
+                  getMapDimensions={getMapDimensions}
+                  postcodeData={postcodeData}
+                />
+              )}
             </div>
           </Card>
         </Layout.Section>

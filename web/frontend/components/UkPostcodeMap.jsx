@@ -105,13 +105,13 @@ const generateMap = (data, postcodeData, colour, imageSize) => {
 
   return (
     <>
-      <g>{legend}</g>
+      {/* <g>{legend}</g> */}
       <g>{draw}</g>
     </>
   );
 };
 
-const UkPostcodeMap = ({ getMapDimensions }) => {
+const UkPostcodeMap = ({ getMapDimensions, postcodeData }) => {
   const { data: geoJson } = useAppQuery({
     url: "/api/map-data",
   });
@@ -126,7 +126,7 @@ const UkPostcodeMap = ({ getMapDimensions }) => {
             className="map-canvas"
             id="uk-map"
           >
-            {generateMap(geoJson, null, "GREEN", getMapDimensions())}
+            {generateMap(geoJson, postcodeData, "GREEN", getMapDimensions())}
           </svg>
         ) : null}
       </div>
