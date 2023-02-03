@@ -62,15 +62,18 @@ app.get("/api/map-data", async (req, res, next) => {
   }
 });
 
-app.get("/api/export-orders", async (req, res, next) => {
+app.post("/api/export-orders", async (req, res, next) => {
   const session = res.locals.shopify.session;
   const client = new shopify.api.clients.Graphql({ session });
+
+  const after = req.body.after;
+  const before = req.body.before;
 
   const query = `mutation {
     bulkOperationRunQuery(
      query: """
       {
-        orders(query: "created_at:>=2020-01-01 AND created_at:<2023-05-01") {
+        orders(query: "created_at:>=${after} AND created_at:<${before}") {
           edges {
             node {
               id

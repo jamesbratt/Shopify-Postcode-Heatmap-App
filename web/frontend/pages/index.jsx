@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { formatISO, sub } from "date-fns";
+import { formatISO, sub, startOfMonth } from "date-fns";
 
 import {
   Card,
@@ -27,6 +27,7 @@ export default function HomePage() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [dateRange, setDateRange] = useState("today");
+  const [colour, setColour] = useState("GREEN");
   const [error, setError] = useState(null);
   const [postcodeData, setPostcodeData] = useState(null);
 
@@ -86,6 +87,7 @@ export default function HomePage() {
           !jsonResponse.data.node.url
         ) {
           clearTimeout(timer);
+          setPostcodeData(null);
           setIsLoading(false);
         } else if (jsonResponse.data.node.status === "FAILED") {
           clearTimeout(timer);
@@ -104,58 +106,84 @@ export default function HomePage() {
     poll();
   };
   const calculateDateRange = () => {
-    let isoDateRange = {};
-
     switch (dateRange) {
       case "today": {
-        isoDateRange = {
+        return {
           after: formatISO(new Date().setHours(0, 0, 0, 0)),
           before: formatISO(new Date()),
         };
-        break;
       }
       case "yesterday": {
         const after = sub(new Date().setHours(0, 0, 0, 0), {
           days: 1,
         });
 
-        isoDateRange = {
+        return {
           after: formatISO(after),
           before: formatISO(new Date().setHours(0, 0, 0, 0)),
         };
-        break;
       }
       case "last24hours": {
         const after = sub(new Date(), {
           hours: 24,
         });
 
-        isoDateRange = {
+        return {
           after: formatISO(after),
-          before: formatISO(new Date().setHours(0, 0, 0, 0)),
+          before: formatISO(new Date()),
         };
-        break;
       }
-      case "lastWeek":
-        break;
-      case "last30days":
-        break;
-      case "monthtodate":
-        break;
+      case "lastWeek": {
+        const after = sub(new Date(), {
+          weeks: 1,
+        });
+
+        return {
+          after: formatISO(after),
+          before: formatISO(new Date()),
+        };
+      }
+      case "last30days": {
+        const after = sub(new Date(), {
+          days: 30,
+        });
+
+        return {
+          after: formatISO(after),
+          before: formatISO(new Date()),
+        };
+      }
+      case "monthtodate": {
+        const after = startOfMonth(new Date());
+
+        return {
+          after: formatISO(after),
+          before: formatISO(new Date()),
+        };
+      }
 
       default:
-        break;
+        return { after: null, before: null };
     }
-
-    return isoDateRange;
   };
 
   const fetchData = async () => {
     setError(null);
     setIsLoading(true);
 
+    const { after, before } = calculateDateRange();
+
     try {
-      const response = await fetch("/api/export-orders");
+      const response = await fetch("/api/export-orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          after,
+          before,
+        }),
+      });
       const jsonResponse = await response.json();
 
       const bulkOperationId =
@@ -180,12 +208,12 @@ export default function HomePage() {
   };
 
   const options = [
-    { label: "Today", value: "today" },
-    { label: "Yesterday", value: "yesterday" },
-    { label: "Last 24 hours", value: "last24hours" },
-    { label: "Last 7 days", value: "lastWeek" },
-    { label: "Last 30 days", value: "last30days" },
-    { label: "Month to date", value: "monthtodate" },
+    { label: "Todays Orders", value: "today" },
+    { label: "Yesterdays Orders", value: "yesterday" },
+    { label: "Orders in the last 24 hours", value: "last24hours" },
+    { label: "Orders in the last 7 days", value: "lastWeek" },
+    { label: "Orders in the last 30 days", value: "last30days" },
+    { label: "Orders from month to date", value: "monthtodate" },
   ];
 
   const colorOptions = [
@@ -221,35 +249,36 @@ export default function HomePage() {
                 <UkPostcodeMap
                   getMapDimensions={getMapDimensions}
                   postcodeData={postcodeData}
+                  colour={colour}
                 />
               )}
             </div>
           </Card>
         </Layout.Section>
         <Layout.Section secondary>
-          <Card title="Retrieve Order Data" sectioned>
+          <Card title="Generate Heatmap" sectioned>
             <FormLayout>
               <Select
-                label="Date Range"
+                label="Orders"
                 options={options}
                 onChange={onDateRangeChange}
                 value={dateRange}
               />
               <Button onClick={fetchData} primary>
-                Submit
+                Generate Heatmap
               </Button>
             </FormLayout>
           </Card>
-          <Card title="Configure Heatmap Display" sectioned>
-            <Select
-              label="Map Colour"
-              options={colorOptions}
-              onChange={() => {}}
-              value={"GREEN"}
-            />
-          </Card>
           <Card title="Export Heatmap" sectioned>
-            <Button primary>Download .PNG Image</Button>
+            <FormLayout>
+              <Select
+                label="Map Colour"
+                options={colorOptions}
+                onChange={setColour}
+                value={colour}
+              />
+              <Button primary>Download .PNG Image</Button>
+            </FormLayout>
           </Card>
         </Layout.Section>
       </Layout>
