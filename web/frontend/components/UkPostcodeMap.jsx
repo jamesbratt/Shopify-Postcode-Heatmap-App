@@ -39,6 +39,8 @@ const generatePaths = (data, path, colorScale, postcodeData) => {
         className="path"
         d={path(feature)}
         fill={fill}
+        stroke="black"
+        strokeWidth="0.2"
       />
     );
   });
@@ -66,6 +68,24 @@ const generateLegend = (data, colorScale, height) => {
 };
 
 const generateMap = (data, postcodeData, colour, imageSize) => {
+  const svg = d3.select("svg");
+  const zoom = d3
+    .zoom()
+    .scaleExtent([1, 8])
+    .translateExtent([
+      [0, 0],
+      [imageSize.width, imageSize.height],
+    ])
+    .on("zoom", zoomed);
+
+  function zoomed(event) {
+    const g = d3.select("g");
+    g.selectAll("path") // To prevent stroke width from scaling
+      .attr("transform", event.transform);
+  }
+
+  svg.call(zoom);
+
   const colourSchemes = {
     GREEN: d3.schemeGreens,
     BLUE: d3.schemeBlues,
@@ -119,16 +139,16 @@ const UkPostcodeMap = ({ getMapDimensions, postcodeData, colour }) => {
   return (
     <div className="map">
       <div className="map-inner">
-        {geoJson ? (
-          <svg
-            width={`${getMapDimensions().width}px`}
-            height={`${getMapDimensions().height}px`}
-            className="map-canvas"
-            id="uk-map"
-          >
-            {generateMap(geoJson, postcodeData, colour, getMapDimensions())}
-          </svg>
-        ) : null}
+        <svg
+          width={`${getMapDimensions().width}px`}
+          height={`${getMapDimensions().height}px`}
+          className="map-canvas"
+          id="uk-map"
+        >
+          {geoJson
+            ? generateMap(geoJson, postcodeData, colour, getMapDimensions())
+            : null}
+        </svg>
       </div>
     </div>
   );
