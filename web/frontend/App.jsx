@@ -18,7 +18,18 @@ export default function App() {
       <BrowserRouter>
         <AppBridgeProvider>
           <QueryProvider>
-            <NavigationMenu navigationLinks={[]} />
+            <NavigationMenu
+              navigationLinks={[
+                {
+                  label: "UK Postcode Districts",
+                  destination: "/UkHeatmap",
+                },
+                {
+                  label: "US States",
+                  destination: "/UsHeatmap",
+                },
+              ]}
+            />
             <Routes pages={pages} />
           </QueryProvider>
         </AppBridgeProvider>
