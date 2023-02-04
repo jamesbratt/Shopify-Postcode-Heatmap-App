@@ -26,6 +26,7 @@ export default function HomePage() {
   const fetch = useAuthenticatedFetch();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [selection, setSelection] = useState({ area: "", value: "" });
   const [dateRange, setDateRange] = useState("today");
   const [colour, setColour] = useState("GREEN");
   const [error, setError] = useState(null);
@@ -207,6 +208,13 @@ export default function HomePage() {
     setDateRange(range);
   };
 
+  const onSelectArea = (area, value) => {
+    setSelection({
+      area: area === selection.area ? "" : area,
+      value: area === selection.area ? "" : value,
+    });
+  };
+
   const options = [
     { label: "Todays Orders", value: "today" },
     { label: "Yesterdays Orders", value: "yesterday" },
@@ -242,17 +250,26 @@ export default function HomePage() {
         )}
         <Layout.Section>
           <Card title="UK Order Density by Postcode District" sectioned>
-            <div ref={mapContainerRef}>
-              {isLoading ? (
-                <Spinner accessibilityLabel="Spinner example" size="large" />
-              ) : (
-                <UkPostcodeMap
-                  getMapDimensions={getMapDimensions}
-                  postcodeData={postcodeData}
-                  colour={colour}
-                />
-              )}
-            </div>
+            <Card.Section>
+              <div ref={mapContainerRef}>
+                {isLoading ? (
+                  <Spinner accessibilityLabel="Spinner example" size="large" />
+                ) : (
+                  <UkPostcodeMap
+                    getMapDimensions={getMapDimensions}
+                    postcodeData={postcodeData}
+                    colour={colour}
+                    setSelection={onSelectArea}
+                  />
+                )}
+              </div>
+            </Card.Section>
+            <Card.Section>
+              <p>
+                Postcode District: {selection.area} &nbsp; Number of orders:{" "}
+                {selection.value}
+              </p>
+            </Card.Section>
           </Card>
         </Layout.Section>
         <Layout.Section secondary>

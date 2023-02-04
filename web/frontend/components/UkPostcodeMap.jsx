@@ -2,6 +2,7 @@ import * as topojson from "topojson-client";
 import * as d3 from "d3";
 
 import { useAppQuery } from "../hooks";
+import { useState } from "react";
 
 const DOMAIN_LENGTH = 6;
 
@@ -28,7 +29,7 @@ const generateDomainValues = (postcodeData) => {
   }
 };
 
-const generatePaths = (data, path, colorScale, postcodeData) => {
+const generatePaths = (data, path, colorScale, postcodeData, setSelection) => {
   return data.map((feature) => {
     const fill = postcodeData
       ? colorScale(postcodeData[feature.properties.name] ?? -1)
@@ -41,6 +42,14 @@ const generatePaths = (data, path, colorScale, postcodeData) => {
         fill={fill}
         stroke="black"
         strokeWidth="0.2"
+        onClick={() =>
+          setSelection(
+            feature.properties.name,
+            postcodeData && postcodeData[feature.properties.name]
+              ? postcodeData[feature.properties.name]
+              : 0
+          )
+        }
       />
     );
   });
@@ -67,7 +76,7 @@ const generateLegend = (data, colorScale, height) => {
   });
 };
 
-const generateMap = (data, postcodeData, colour, imageSize) => {
+const generateMap = (data, postcodeData, colour, imageSize, setSelection) => {
   const svg = d3.select("svg");
   const zoom = d3
     .zoom()
@@ -118,7 +127,8 @@ const generateMap = (data, postcodeData, colour, imageSize) => {
     countiesJson.features,
     path,
     colorScale,
-    postcodeData
+    postcodeData,
+    setSelection
   );
 
   const legend = generateLegend(domainValues, colorScale, imageSize.height);
@@ -131,14 +141,19 @@ const generateMap = (data, postcodeData, colour, imageSize) => {
   );
 };
 
-const UkPostcodeMap = ({ getMapDimensions, postcodeData, colour }) => {
+const UkPostcodeMap = ({
+  getMapDimensions,
+  postcodeData,
+  colour,
+  setSelection,
+}) => {
   const { data: geoJson } = useAppQuery({
     url: "/api/map-data",
   });
 
   return (
     <div className="map">
-      <div className="map-inner">
+      <div className="map-inner" style={{ position: "relative" }}>
         <svg
           width={`${getMapDimensions().width}px`}
           height={`${getMapDimensions().height}px`}
@@ -146,7 +161,13 @@ const UkPostcodeMap = ({ getMapDimensions, postcodeData, colour }) => {
           id="uk-map"
         >
           {geoJson
-            ? generateMap(geoJson, postcodeData, colour, getMapDimensions())
+            ? generateMap(
+                geoJson,
+                postcodeData,
+                colour,
+                getMapDimensions(),
+                setSelection
+              )
             : null}
         </svg>
       </div>
