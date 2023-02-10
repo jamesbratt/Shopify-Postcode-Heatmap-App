@@ -50,10 +50,17 @@ app.get("/api/products/count", async (_req, res) => {
   res.status(200).send(countData);
 });
 
-app.get("/api/map-data", async (req, res, next) => {
+app.post("/api/map-data", async (req, res, next) => {
+  const mapType = req.body.mapType;
+
+  const mapData = {
+    UK: "./geodata/postcodedistricts.json",
+    US: "./geodata/usstates.json",
+  };
+
   try {
     var geoJson = JSON.parse(
-      fs.readFileSync(path.resolve("./geodata/postcodedistricts.json"), "utf8")
+      fs.readFileSync(path.resolve(mapData[mapType]), "utf8")
     );
     res.json(geoJson);
   } catch (ex) {

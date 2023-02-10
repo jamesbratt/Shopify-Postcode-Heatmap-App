@@ -1,18 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { formatISO, sub, startOfMonth } from "date-fns";
+import * as d3 from "d3";
 
 import {
   Card,
-  Page,
   Layout,
   Select,
   Button,
   Spinner,
   Banner,
   FormLayout,
+  Form,
 } from "@shopify/polaris";
-
-import { TitleBar } from "@shopify/app-bridge-react";
 
 import UkPostcodeMap from "./UkPostcodeMap";
 
@@ -25,12 +24,17 @@ export default function Heatmap() {
   const mapContainerRef = useRef();
   const fetch = useAuthenticatedFetch();
 
+  const defaultProjection = d3.geoAlbers().rotate([0, 0]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [selection, setSelection] = useState({ area: "", value: "" });
   const [dateRange, setDateRange] = useState("today");
   const [colour, setColour] = useState("GREEN");
+  const [mapType, setMapType] = useState("UK");
   const [error, setError] = useState(null);
   const [postcodeData, setPostcodeData] = useState(null);
+  const [boundries, setBoundries] = useState(null);
+  const [projection, setProjection] = useState({ value: defaultProjection });
 
   const getMapDimensions = () => {
     return mapContainerRef.current
@@ -172,6 +176,8 @@ export default function Heatmap() {
     setError(null);
     setIsLoading(true);
 
+    await fetchMapData();
+
     const { after, before } = calculateDateRange();
 
     try {
@@ -204,6 +210,28 @@ export default function Heatmap() {
     }
   };
 
+  const fetchMapData = async () => {
+    const response = await fetch("/api/map-data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mapType,
+      }),
+    });
+
+    const jsonResponse = await response.json();
+    setBoundries(jsonResponse);
+
+    const projectionMap = {
+      UK: d3.geoAlbers().rotate([0, 0]),
+      US: d3.geoAlbersUsa(),
+    };
+
+    setProjection({ value: projectionMap[mapType] });
+  };
+
   const onDateRangeChange = (range) => {
     setDateRange(range);
   };
@@ -233,6 +261,15 @@ export default function Heatmap() {
     { label: "Grey", value: "GREY" },
   ];
 
+  const mapOptions = [
+    { label: "UK Postcode Districts", value: "UK" },
+    { label: "US States", value: "US" },
+  ];
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       {error && (
@@ -258,6 +295,8 @@ export default function Heatmap() {
                   postcodeData={postcodeData}
                   colour={colour}
                   setSelection={onSelectArea}
+                  geoJson={boundries}
+                  projection={projection.value}
                 />
               )}
             </div>
@@ -271,28 +310,33 @@ export default function Heatmap() {
         </Card>
       </Layout.Section>
       <Layout.Section secondary>
-        <Card title="Generate Heatmap" sectioned>
-          <FormLayout>
-            <Select
-              label="Orders"
-              options={options}
-              onChange={onDateRangeChange}
-              value={dateRange}
-            />
-            <Button onClick={fetchData} primary>
-              Generate Heatmap
-            </Button>
-          </FormLayout>
+        <Card title="Configure Map Data" sectioned>
+          <Form onSubmit={fetchData}>
+            <FormLayout>
+              <Select
+                label="Map boundries"
+                options={mapOptions}
+                onChange={setMapType}
+                value={mapType}
+              />
+              <Select
+                label="Customer Order Data"
+                options={options}
+                onChange={onDateRangeChange}
+                value={dateRange}
+              />
+              <Button submit>Update Map</Button>
+            </FormLayout>
+          </Form>
         </Card>
-        <Card title="Export Heatmap" sectioned>
+        <Card title="Configure Map Styling" sectioned>
           <FormLayout>
             <Select
-              label="Map Colour"
+              label="Colour"
               options={colorOptions}
               onChange={setColour}
               value={colour}
             />
-            <Button primary>Download .PNG Image</Button>
           </FormLayout>
         </Card>
       </Layout.Section>

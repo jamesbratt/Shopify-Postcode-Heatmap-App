@@ -6,7 +6,10 @@ import { TitleBar } from "@shopify/app-bridge-react";
 export default function UkHeatmap() {
   return (
     <Page>
-      <TitleBar title="UK Postcode Districts" primaryAction={null} />
+      <TitleBar
+        title="UK Postcode Districts"
+        primaryAction={{ content: "Download Map PNG", onAction: () => {} }}
+      />
       <Layout>
         <Heatmap />
       </Layout>
