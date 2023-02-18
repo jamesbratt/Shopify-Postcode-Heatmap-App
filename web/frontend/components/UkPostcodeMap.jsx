@@ -39,6 +39,7 @@ const generatePaths = (data, path, colorScale, postcodeData, setSelection) => {
         fill={fill}
         stroke="black"
         strokeWidth="0.2"
+        style={{ cursor: "pointer" }}
         onClick={() =>
           setSelection(
             feature.properties.name,
@@ -52,27 +53,6 @@ const generatePaths = (data, path, colorScale, postcodeData, setSelection) => {
   });
 };
 
-const generateLegend = (data, colorScale, height) => {
-  const scaleValues = data.reverse();
-  return scaleValues.map((scaleValue, i) => {
-    const fill = colorScale(scaleValue);
-    const x = Math.floor(i / 10) * 20 + 200;
-    const y = (i % 10) * 20 + height - 250;
-    return (
-      <g key={scaleValue}>
-        <text fontSize={"12px"} x={Math.floor(i / 10) * 20 + 220} y={y + 12}>
-          {`${
-            i > 0 && i !== scaleValues.length - 1
-              ? `${scaleValues[i + 1]} - `
-              : ""
-          }${scaleValue} ${i === 0 ? ">" : i === data.length - 1 ? "<" : ""}`}
-        </text>
-        <rect width={15} height={15} x={x} y={y} fill={fill} />
-      </g>
-    );
-  });
-};
-
 const generateMap = (
   data,
   postcodeData,
@@ -81,7 +61,7 @@ const generateMap = (
   setSelection,
   projection
 ) => {
-  const svg = d3.select("svg");
+  const svg = d3.select("#uk-map");
   const zoom = d3
     .zoom()
     .scaleExtent([1, 8])
@@ -131,11 +111,8 @@ const generateMap = (
     setSelection
   );
 
-  const legend = generateLegend(domainValues, colorScale, imageSize.height);
-
   return (
     <>
-      {/* <g>{legend}</g> */}
       <g>{draw}</g>
     </>
   );

@@ -6,14 +6,16 @@ import {
   Card,
   Layout,
   Select,
-  Button,
   Spinner,
   Banner,
   FormLayout,
-  Form,
+  Page,
+  EmptyState,
 } from "@shopify/polaris";
 
-import UkPostcodeMap from "./UkPostcodeMap";
+import { TitleBar } from "@shopify/app-bridge-react";
+
+import UkPostcodeMap from "../components/UkPostcodeMap";
 
 import { useAuthenticatedFetch } from "../hooks";
 
@@ -31,6 +33,7 @@ export default function Heatmap() {
   const [dateRange, setDateRange] = useState("today");
   const [colour, setColour] = useState("GREEN");
   const [mapType, setMapType] = useState("UK");
+  const [mapTitle, setMapTitle] = useState("UK Postcode District");
   const [error, setError] = useState(null);
   const [postcodeData, setPostcodeData] = useState(null);
   const [boundries, setBoundries] = useState(null);
@@ -110,6 +113,7 @@ export default function Heatmap() {
 
     poll();
   };
+
   const calculateDateRange = () => {
     switch (dateRange) {
       case "today": {
@@ -224,6 +228,13 @@ export default function Heatmap() {
     const jsonResponse = await response.json();
     setBoundries(jsonResponse);
 
+    const mapTypeTitle = {
+      UK: "UK Postcode District",
+      US: "US State",
+    };
+
+    setMapTitle(mapTypeTitle[mapType]);
+
     const projectionMap = {
       UK: d3.geoAlbers().rotate([0, 0]),
       US: d3.geoAlbersUsa(),
@@ -268,78 +279,85 @@ export default function Heatmap() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [mapType, dateRange]);
 
   return (
-    <>
-      {error && (
+    <Page>
+      <TitleBar
+        title="Customer Order Map"
+        primaryAction={{ content: "Download Map PNG", onAction: () => {} }}
+      />
+      <Layout>
+        {error && (
+          <Layout.Section>
+            <Banner
+              title="We were unable to retrieve your order data"
+              action={{ content: "Try Again", onAction: fetchData }}
+              status="critical"
+            >
+              <p>{error}</p>
+            </Banner>
+          </Layout.Section>
+        )}
         <Layout.Section>
-          <Banner
-            title="We were unable to retrieve your order data"
-            action={{ content: "Try Again", onAction: fetchData }}
-            status="critical"
-          >
-            <p>{error}</p>
-          </Banner>
-        </Layout.Section>
-      )}
-      <Layout.Section>
-        <Card title="UK Order Density by Postcode District" sectioned>
-          <Card.Section>
-            <div ref={mapContainerRef}>
-              {isLoading ? (
-                <Spinner accessibilityLabel="Spinner example" size="large" />
-              ) : (
-                <UkPostcodeMap
-                  getMapDimensions={getMapDimensions}
-                  postcodeData={postcodeData}
-                  colour={colour}
-                  setSelection={onSelectArea}
-                  geoJson={boundries}
-                  projection={projection.value}
+          <Card title={`Order Density by ${mapTitle}`} sectioned>
+            <FormLayout>
+              <FormLayout.Group>
+                <Select
+                  label="Map boundries"
+                  options={mapOptions}
+                  onChange={setMapType}
+                  value={mapType}
                 />
-              )}
-            </div>
-          </Card.Section>
-          <Card.Section>
-            <p>
-              Postcode District: {selection.area} &nbsp; Number of orders:{" "}
-              {selection.value}
-            </p>
-          </Card.Section>
-        </Card>
-      </Layout.Section>
-      <Layout.Section secondary>
-        <Card title="Configure Map Data" sectioned>
-          <Form onSubmit={fetchData}>
+                <Select
+                  label="Customer Order Data"
+                  options={options}
+                  onChange={onDateRangeChange}
+                  value={dateRange}
+                />
+              </FormLayout.Group>
+            </FormLayout>
+
+            <Card.Section>
+              <div ref={mapContainerRef}>
+                <>
+                  {isLoading ? <Spinner size="small" /> : null}
+                  <UkPostcodeMap
+                    getMapDimensions={getMapDimensions}
+                    postcodeData={postcodeData}
+                    colour={colour}
+                    setSelection={onSelectArea}
+                    geoJson={boundries}
+                    projection={projection.value}
+                  />
+                </>
+              </div>
+            </Card.Section>
+          </Card>
+        </Layout.Section>
+        <Layout.Section secondary>
+          <Card sectioned>
+            <EmptyState heading="Click to select a boundry">
+              <p>Display data associated to the selected boundry e.g state.</p>
+              <p>
+                Postcode District: {selection.area} &nbsp; Number of orders:{" "}
+                {selection.value}
+              </p>
+            </EmptyState>
+          </Card>
+
+          <Card title="Configure Map Styling" sectioned>
             <FormLayout>
               <Select
-                label="Map boundries"
-                options={mapOptions}
-                onChange={setMapType}
-                value={mapType}
+                label="Colour"
+                options={colorOptions}
+                onChange={setColour}
+                value={colour}
               />
-              <Select
-                label="Customer Order Data"
-                options={options}
-                onChange={onDateRangeChange}
-                value={dateRange}
-              />
-              <Button submit>Update Map</Button>
             </FormLayout>
-          </Form>
-        </Card>
-        <Card title="Configure Map Styling" sectioned>
-          <FormLayout>
-            <Select
-              label="Colour"
-              options={colorOptions}
-              onChange={setColour}
-              value={colour}
-            />
-          </FormLayout>
-        </Card>
-      </Layout.Section>
-    </>
+          </Card>
+        </Layout.Section>
+      </Layout>
+    </Page>
   );
 }

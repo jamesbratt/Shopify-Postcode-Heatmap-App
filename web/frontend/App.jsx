@@ -21,12 +21,8 @@ export default function App() {
             <NavigationMenu
               navigationLinks={[
                 {
-                  label: "UK Postcode Districts",
-                  destination: "/UkHeatmap",
-                },
-                {
-                  label: "US States",
-                  destination: "/UsHeatmap",
+                  label: "Map",
+                  destination: "/Heatmap",
                 },
               ]}
             />
