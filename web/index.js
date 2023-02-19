@@ -80,12 +80,13 @@ app.post("/api/export-orders", async (req, res, next) => {
     bulkOperationRunQuery(
      query: """
       {
-        orders(query: "created_at:>=${after} AND created_at:<${before}") {
+        orders(query: "created_at:>='${after}' AND created_at:<'${before}'") {
           edges {
             node {
               id
               shippingAddress {
                 zip
+                provinceCode
               }
             }
           }
@@ -162,7 +163,7 @@ app.post("/api/check-export-status", async (req, res, next) => {
   }
 });
 
-app.post("/api/stream", async (req, res) => {
+const aggregateUkPostcodeDitricts = async (rl) => {
   const getDistrictCode = (postcode) => {
     const trimmedPostcode = postcode.replace(/\s+/g, "");
     const districtCode = trimmedPostcode.substring(0, 2).trim();
@@ -172,10 +173,6 @@ app.post("/api/stream", async (req, res) => {
 
     return districtCode;
   };
-
-  const rl = readline.createInterface({
-    input: got.stream(req.body.url),
-  });
 
   let results = {};
 
@@ -189,11 +186,48 @@ app.post("/api/stream", async (req, res) => {
       if (results[districtCode] === undefined) {
         results[districtCode] = 1;
       } else {
-        results.districtCode = results[districtCode] + 1;
+        results[districtCode] = results[districtCode] + 1;
       }
     }
   }
+  return results;
+};
 
+const aggregateUsStates = async (rl) => {
+  let results = {};
+
+  for await (const line of rl) {
+    const parsedData = JSON.parse(line);
+
+    console.log(parsedData);
+
+    const provinceCode = parsedData?.shippingAddress?.provinceCode;
+
+    if (provinceCode !== null && provinceCode !== undefined) {
+      if (results[provinceCode] === undefined) {
+        results[provinceCode] = 1;
+        console.log(results[provinceCode]);
+      } else {
+        results[provinceCode] = results[provinceCode] + 1;
+      }
+    }
+  }
+  console.log(results);
+  return results;
+};
+
+app.post("/api/stream", async (req, res) => {
+  const mapType = req.body.mapType;
+
+  const rl = readline.createInterface({
+    input: got.stream(req.body.url),
+  });
+
+  const results =
+    mapType === "UK"
+      ? await aggregateUkPostcodeDitricts(rl)
+      : await aggregateUsStates(rl);
+  console.log(results);
   return res.json(results);
 });
 

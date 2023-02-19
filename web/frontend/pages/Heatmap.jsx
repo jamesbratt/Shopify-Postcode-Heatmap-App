@@ -11,6 +11,8 @@ import {
   FormLayout,
   Page,
   EmptyState,
+  DescriptionList,
+  Button,
 } from "@shopify/polaris";
 
 import { TitleBar } from "@shopify/app-bridge-react";
@@ -57,6 +59,7 @@ export default function Heatmap() {
         },
         body: JSON.stringify({
           url,
+          mapType,
         }),
       });
       const jsonResponse = await response.json();
@@ -279,7 +282,9 @@ export default function Heatmap() {
 
   useEffect(() => {
     fetchData();
-  }, [mapType, dateRange]);
+  }, []);
+
+  const hasSelected = selection.area !== "";
 
   return (
     <Page>
@@ -300,24 +305,39 @@ export default function Heatmap() {
           </Layout.Section>
         )}
         <Layout.Section>
+          <Card title="Configure Map">
+            <Card.Section>
+              <p>
+                Visualize the density of your customer orders for specific
+                national geographic boundries within a given date range and
+                identify your highest and lowest performing provinces.
+              </p>
+            </Card.Section>
+            <Card.Section>
+              <FormLayout>
+                <FormLayout.Group>
+                  <Select
+                    label="Map boundries"
+                    options={mapOptions}
+                    onChange={setMapType}
+                    value={mapType}
+                  />
+                  <Select
+                    label="Customer Order Data"
+                    options={options}
+                    onChange={onDateRangeChange}
+                    value={dateRange}
+                  />
+                </FormLayout.Group>
+                <Button primary onClick={fetchData}>
+                  Update Map
+                </Button>
+              </FormLayout>
+            </Card.Section>
+          </Card>
+        </Layout.Section>
+        <Layout.Section>
           <Card title={`Order Density by ${mapTitle}`} sectioned>
-            <FormLayout>
-              <FormLayout.Group>
-                <Select
-                  label="Map boundries"
-                  options={mapOptions}
-                  onChange={setMapType}
-                  value={mapType}
-                />
-                <Select
-                  label="Customer Order Data"
-                  options={options}
-                  onChange={onDateRangeChange}
-                  value={dateRange}
-                />
-              </FormLayout.Group>
-            </FormLayout>
-
             <Card.Section>
               <div ref={mapContainerRef}>
                 <>
@@ -336,14 +356,26 @@ export default function Heatmap() {
           </Card>
         </Layout.Section>
         <Layout.Section secondary>
-          <Card sectioned>
-            <EmptyState heading="Click to select a boundry">
-              <p>Display data associated to the selected boundry e.g state.</p>
-              <p>
-                Postcode District: {selection.area} &nbsp; Number of orders:{" "}
-                {selection.value}
-              </p>
-            </EmptyState>
+          <Card title="Boundry Data" sectioned>
+            {hasSelected ? (
+              <DescriptionList
+                spacing="tight"
+                items={[
+                  {
+                    term: "Boundry Name",
+                    description: selection.area,
+                  },
+                  {
+                    term: "No. Orders",
+                    description: selection.value,
+                  },
+                ]}
+              />
+            ) : (
+              <EmptyState heading="Click on the map to select a boundry">
+                <p>e.g. a postcode district or state/province</p>
+              </EmptyState>
+            )}
           </Card>
 
           <Card title="Configure Map Styling" sectioned>

@@ -3274,7 +3274,7 @@
         {
           "arcs": [[0, 1, 2, 3, 4]],
           "type": "Polygon",
-          "properties": { "abbr": "AL", "name": "Alabama" },
+          "properties": { "name": "AL", "desc": "Alabama" },
           "id": "01"
         },
         {
@@ -3320,271 +3320,271 @@
             [[43]]
           ],
           "type": "MultiPolygon",
-          "properties": { "abbr": "AK", "name": "Alaska" },
+          "properties": { "name": "AK", "desc": "Alaska" },
           "id": "02"
         },
         {
           "arcs": [[44, 45, 46, 47, 48]],
           "type": "Polygon",
-          "properties": { "abbr": "AZ", "name": "Arizona" },
+          "properties": { "name": "AZ", "desc": "Arizona" },
           "id": "04"
         },
         {
           "arcs": [[49, 50, 51, 52, 53, 54]],
           "type": "Polygon",
-          "properties": { "abbr": "AR", "name": "Arkansas" },
+          "properties": { "name": "AR", "desc": "Arkansas" },
           "id": "05"
         },
         {
           "arcs": [[55, -47, 56, 57]],
           "type": "Polygon",
-          "properties": { "abbr": "CA", "name": "California" },
+          "properties": { "name": "CA", "desc": "California" },
           "id": "06"
         },
         {
           "arcs": [[58, 59, 60, 61, 62, 63]],
           "type": "Polygon",
-          "properties": { "abbr": "CO", "name": "Colorado" },
+          "properties": { "name": "CO", "desc": "Colorado" },
           "id": "08"
         },
         {
           "arcs": [[64, 65, 66, 67]],
           "type": "Polygon",
-          "properties": { "abbr": "CT", "name": "Connecticut" },
+          "properties": { "name": "CT", "desc": "Connecticut" },
           "id": "09"
         },
         {
           "arcs": [[68, 69, 70, 71]],
           "type": "Polygon",
-          "properties": { "abbr": "DE", "name": "Delaware" },
+          "properties": { "name": "DE", "desc": "Delaware" },
           "id": "10"
         },
         {
           "arcs": [[72, 73]],
           "type": "Polygon",
-          "properties": { "abbr": "DC", "name": "District of Columbia" },
+          "properties": { "name": "DC", "desc": "District of Columbia" },
           "id": "11"
         },
         {
           "arcs": [[74, 75, -2]],
           "type": "Polygon",
-          "properties": { "abbr": "FL", "name": "Florida" },
+          "properties": { "name": "FL", "desc": "Florida" },
           "id": "12"
         },
         {
           "arcs": [[76, 77, -75, -1, 78, 79]],
           "type": "Polygon",
-          "properties": { "abbr": "GA", "name": "Georgia" },
+          "properties": { "name": "GA", "desc": "Georgia" },
           "id": "13"
         },
         {
           "arcs": [[[80]], [[81]], [[82]], [[83]], [[84]]],
           "type": "MultiPolygon",
-          "properties": { "abbr": "HI", "name": "Hawaii" },
+          "properties": { "name": "HI", "desc": "Hawaii" },
           "id": "15"
         },
         {
           "arcs": [[85, 86, 87, 88, 89, 90, 91]],
           "type": "Polygon",
-          "properties": { "abbr": "ID", "name": "Idaho" },
+          "properties": { "name": "ID", "desc": "Idaho" },
           "id": "16"
         },
         {
           "arcs": [[92, 93, 94, 95, 96, 97]],
           "type": "Polygon",
-          "properties": { "abbr": "IL", "name": "Illinois" },
+          "properties": { "name": "IL", "desc": "Illinois" },
           "id": "17"
         },
         {
           "arcs": [[98, 99, -95, 100, 101]],
           "type": "Polygon",
-          "properties": { "abbr": "IN", "name": "Indiana" },
+          "properties": { "name": "IN", "desc": "Indiana" },
           "id": "18"
         },
         {
           "arcs": [[102, -98, 103, 104, 105, 106]],
           "type": "Polygon",
-          "properties": { "abbr": "IA", "name": "Iowa" },
+          "properties": { "name": "IA", "desc": "Iowa" },
           "id": "19"
         },
         {
           "arcs": [[107, 108, -60, 109]],
           "type": "Polygon",
-          "properties": { "abbr": "KS", "name": "Kansas" },
+          "properties": { "name": "KS", "desc": "Kansas" },
           "id": "20"
         },
         {
           "arcs": [[110, 111, 112, 113, -96, -100, 114]],
           "type": "Polygon",
-          "properties": { "abbr": "KY", "name": "Kentucky" },
+          "properties": { "name": "KY", "desc": "Kentucky" },
           "id": "21"
         },
         {
           "arcs": [[115, 116, 117, -52]],
           "type": "Polygon",
-          "properties": { "abbr": "LA", "name": "Louisiana" },
+          "properties": { "name": "LA", "desc": "Louisiana" },
           "id": "22"
         },
         {
           "arcs": [[118, 119]],
           "type": "Polygon",
-          "properties": { "abbr": "ME", "name": "Maine" },
+          "properties": { "name": "ME", "desc": "Maine" },
           "id": "23"
         },
         {
           "arcs": [[120, -71, 121, 122, 123, 124, -74, 125, 126]],
           "type": "Polygon",
-          "properties": { "abbr": "MD", "name": "Maryland" },
+          "properties": { "name": "MD", "desc": "Maryland" },
           "id": "24"
         },
         {
           "arcs": [[127, 128, 129, 130, -68, 131, 132, 133]],
           "type": "Polygon",
-          "properties": { "abbr": "MA", "name": "Massachusetts" },
+          "properties": { "name": "MA", "desc": "Massachusetts" },
           "id": "25"
         },
         {
           "arcs": [[[134, -102, 135]], [[136]], [[137, 138]], [[139]]],
           "type": "MultiPolygon",
-          "properties": { "abbr": "MI", "name": "Michigan" },
+          "properties": { "name": "MI", "desc": "Michigan" },
           "id": "26"
         },
         {
           "arcs": [[140, -107, 141, 142, 143]],
           "type": "Polygon",
-          "properties": { "abbr": "MN", "name": "Minnesota" },
+          "properties": { "name": "MN", "desc": "Minnesota" },
           "id": "27"
         },
         {
           "arcs": [[-4, 144, -116, -51, 145]],
           "type": "Polygon",
-          "properties": { "abbr": "MS", "name": "Mississippi" },
+          "properties": { "name": "MS", "desc": "Mississippi" },
           "id": "28"
         },
         {
           "arcs": [[-97, -114, 146, -55, 147, -108, 148, -104]],
           "type": "Polygon",
-          "properties": { "abbr": "MO", "name": "Missouri" },
+          "properties": { "name": "MO", "desc": "Missouri" },
           "id": "29"
         },
         {
           "arcs": [[149, 150, 151, -86, 152]],
           "type": "Polygon",
-          "properties": { "abbr": "MT", "name": "Montana" },
+          "properties": { "name": "MT", "desc": "Montana" },
           "id": "30"
         },
         {
           "arcs": [[-105, -149, -110, -59, 153, 154]],
           "type": "Polygon",
-          "properties": { "abbr": "NB", "name": "Nebraska" },
+          "properties": { "name": "NB", "desc": "Nebraska" },
           "id": "31"
         },
         {
           "arcs": [[-89, 155, -48, -56, 156]],
           "type": "Polygon",
-          "properties": { "abbr": "NV", "name": "Nevada" },
+          "properties": { "name": "NV", "desc": "Nevada" },
           "id": "32"
         },
         {
           "arcs": [[-119, 157, -134, 158, 159]],
           "type": "Polygon",
-          "properties": { "abbr": "NH", "name": "New Hampshire" },
+          "properties": { "name": "NH", "desc": "New Hampshire" },
           "id": "33"
         },
         {
           "arcs": [[160, -69, 161, 162]],
           "type": "Polygon",
-          "properties": { "abbr": "NJ", "name": "New Jersey" },
+          "properties": { "name": "NJ", "desc": "New Jersey" },
           "id": "34"
         },
         {
           "arcs": [[163, 164, 165, -45, -62]],
           "type": "Polygon",
-          "properties": { "abbr": "NM", "name": "New Mexico" },
+          "properties": { "name": "NM", "desc": "New Mexico" },
           "id": "35"
         },
         {
           "arcs": [[166, -132, -67, 167, -163, 168, 169]],
           "type": "Polygon",
-          "properties": { "abbr": "NY", "name": "New York" },
+          "properties": { "name": "NY", "desc": "New York" },
           "id": "36"
         },
         {
           "arcs": [[170, 171, -80, 172, 173]],
           "type": "Polygon",
-          "properties": { "abbr": "NC", "name": "North Carolina" },
+          "properties": { "name": "NC", "desc": "North Carolina" },
           "id": "37"
         },
         {
           "arcs": [[-143, 174, -150, 175]],
           "type": "Polygon",
-          "properties": { "abbr": "ND", "name": "North Dakota" },
+          "properties": { "name": "ND", "desc": "North Dakota" },
           "id": "38"
         },
         {
           "arcs": [[176, 177, -115, -99, -135, 178]],
           "type": "Polygon",
-          "properties": { "abbr": "OH", "name": "Ohio" },
+          "properties": { "name": "OH", "desc": "Ohio" },
           "id": "39"
         },
         {
           "arcs": [[-148, -54, 179, -164, -61, -109]],
           "type": "Polygon",
-          "properties": { "abbr": "OK", "name": "Oklahoma" },
+          "properties": { "name": "OK", "desc": "Oklahoma" },
           "id": "40"
         },
         {
           "arcs": [[-90, -157, -58, 180, 181]],
           "type": "Polygon",
-          "properties": { "abbr": "OR", "name": "Oregon" },
+          "properties": { "name": "OR", "desc": "Oregon" },
           "id": "41"
         },
         {
           "arcs": [[-162, -72, -121, 182, -177, 183, -169]],
           "type": "Polygon",
-          "properties": { "abbr": "PA", "name": "Pennsylvania" },
+          "properties": { "name": "PA", "desc": "Pennsylvania" },
           "id": "42"
         },
         {
           "arcs": [[[-129, 184]], [[185, -65, -131]]],
           "type": "MultiPolygon",
-          "properties": { "abbr": "RI", "name": "Rhode Island" },
+          "properties": { "name": "RI", "desc": "Rhode Island" },
           "id": "44"
         },
         {
           "arcs": [[186, -77, -172]],
           "type": "Polygon",
-          "properties": { "abbr": "SC", "name": "South Carolina" },
+          "properties": { "name": "SC", "desc": "South Carolina" },
           "id": "45"
         },
         {
           "arcs": [[-175, -142, -106, -155, 187, -151]],
           "type": "Polygon",
-          "properties": { "abbr": "SD", "name": "South Dakota" },
+          "properties": { "name": "SD", "desc": "South Dakota" },
           "id": "46"
         },
         {
           "arcs": [[188, -173, -79, -5, -146, -50, -147, -113]],
           "type": "Polygon",
-          "properties": { "abbr": "TN", "name": "Tennessee" },
+          "properties": { "name": "TN", "desc": "Tennessee" },
           "id": "47"
         },
         {
           "arcs": [[-53, -118, 189, -165, -180]],
           "type": "Polygon",
-          "properties": { "abbr": "TX", "name": "Texas" },
+          "properties": { "name": "TX", "desc": "Texas" },
           "id": "48"
         },
         {
           "arcs": [[190, -63, -49, -156, -88]],
           "type": "Polygon",
-          "properties": { "abbr": "UT", "name": "Utah" },
+          "properties": { "name": "UT", "desc": "Utah" },
           "id": "49"
         },
         {
           "arcs": [[-159, -133, -167, 191]],
           "type": "Polygon",
-          "properties": { "abbr": "VT", "name": "Vermont" },
+          "properties": { "name": "VT", "desc": "Vermont" },
           "id": "50"
         },
         {
@@ -3593,31 +3593,31 @@
             [[194, -123]]
           ],
           "type": "MultiPolygon",
-          "properties": { "abbr": "VA", "name": "Virginia" },
+          "properties": { "name": "VA", "desc": "Virginia" },
           "id": "51"
         },
         {
           "arcs": [[[-91, -182, 195]], [[196]], [[197]]],
           "type": "MultiPolygon",
-          "properties": { "abbr": "WA", "name": "Washington" },
+          "properties": { "name": "WA", "desc": "Washington" },
           "id": "53"
         },
         {
           "arcs": [[-183, -127, -194, -111, -178]],
           "type": "Polygon",
-          "properties": { "abbr": "WV", "name": "West Virginia" },
+          "properties": { "name": "WV", "desc": "West Virginia" },
           "id": "54"
         },
         {
           "arcs": [[-138, 198, -93, -103, -141, 199]],
           "type": "Polygon",
-          "properties": { "abbr": "WI", "name": "Wisconsin" },
+          "properties": { "name": "WI", "desc": "Wisconsin" },
           "id": "55"
         },
         {
           "arcs": [[-188, -154, -64, -191, -87, -152]],
           "type": "Polygon",
-          "properties": { "abbr": "WY", "name": "Wyoming" },
+          "properties": { "name": "WY", "desc": "Wyoming" },
           "id": "56"
         }
       ]
