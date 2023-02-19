@@ -45,7 +45,8 @@ const generatePaths = (data, path, colorScale, postcodeData, setSelection) => {
             feature.properties.name,
             postcodeData && postcodeData[feature.properties.name]
               ? postcodeData[feature.properties.name]
-              : 0
+              : 0,
+            feature.properties.desc
           )
         }
       />

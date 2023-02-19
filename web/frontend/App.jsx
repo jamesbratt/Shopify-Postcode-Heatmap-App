@@ -18,14 +18,7 @@ export default function App() {
       <BrowserRouter>
         <AppBridgeProvider>
           <QueryProvider>
-            <NavigationMenu
-              navigationLinks={[
-                {
-                  label: "Map",
-                  destination: "/Heatmap",
-                },
-              ]}
-            />
+            <NavigationMenu navigationLinks={[]} />
             <Routes pages={pages} />
           </QueryProvider>
         </AppBridgeProvider>
