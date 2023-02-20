@@ -19560,6 +19560,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CA",
+            "desc": "Carlisle postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19572,6 +19573,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SR",
+            "desc": "Sunderland postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19584,6 +19586,7 @@
           "type": "Polygon",
           "properties": {
             "name": "DH",
+            "desc": "Durham postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19598,6 +19601,7 @@
           "type": "Polygon",
           "properties": {
             "name": "DL",
+            "desc": "Darlington postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19610,6 +19614,7 @@
           "type": "Polygon",
           "properties": {
             "name": "TS",
+            "desc": "Cleveland postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19622,6 +19627,7 @@
           "type": "Polygon",
           "properties": {
             "name": "LA",
+            "desc": "Lancaster postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19634,6 +19640,7 @@
           "type": "Polygon",
           "properties": {
             "name": "YO",
+            "desc": "York postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19646,6 +19653,7 @@
           "type": "Polygon",
           "properties": {
             "name": "HG",
+            "desc": "Harrogate postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19658,6 +19666,7 @@
           "type": "Polygon",
           "properties": {
             "name": "BD",
+            "desc": "Bradford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19670,6 +19679,7 @@
           "type": "Polygon",
           "properties": {
             "name": "FY",
+            "desc": "Blackpool postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19682,6 +19692,7 @@
           "type": "Polygon",
           "properties": {
             "name": "PR",
+            "desc": "Preston postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19694,6 +19705,7 @@
           "type": "Polygon",
           "properties": {
             "name": "BB",
+            "desc": "Blackburn postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19706,6 +19718,7 @@
           "type": "Polygon",
           "properties": {
             "name": "LS",
+            "desc": "Leeds postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19718,6 +19731,7 @@
           "type": "Polygon",
           "properties": {
             "name": "L",
+            "desc": "Liverpool postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19730,6 +19744,7 @@
           "type": "Polygon",
           "properties": {
             "name": "WN",
+            "desc": "Wigan postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19742,6 +19757,7 @@
           "type": "Polygon",
           "properties": {
             "name": "WA",
+            "desc": "Warrington postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19754,6 +19770,7 @@
           "type": "Polygon",
           "properties": {
             "name": "M",
+            "desc": "Manchester postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19766,6 +19783,7 @@
           "type": "Polygon",
           "properties": {
             "name": "HX",
+            "desc": "Halifax postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19778,6 +19796,7 @@
           "type": "Polygon",
           "properties": {
             "name": "HD",
+            "desc": "Huddersfield postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19790,6 +19809,7 @@
           "type": "Polygon",
           "properties": {
             "name": "HU",
+            "desc": "Hull postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19802,6 +19822,7 @@
           "type": "Polygon",
           "properties": {
             "name": "WF",
+            "desc": "Wakefield postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19814,6 +19835,7 @@
           "type": "Polygon",
           "properties": {
             "name": "DN",
+            "desc": "Doncaster postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19838,6 +19860,7 @@
           "type": "MultiPolygon",
           "properties": {
             "name": "PH",
+            "desc": "Perth postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19870,6 +19893,7 @@
           "type": "MultiPolygon",
           "properties": {
             "name": "PA",
+            "desc": "Paisley postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19892,6 +19916,7 @@
           "type": "MultiPolygon",
           "properties": {
             "name": "KA",
+            "desc": "Kilmarnock postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19904,6 +19929,7 @@
           "type": "Polygon",
           "properties": {
             "name": "IM",
+            "desc": "Isle of Man postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19916,6 +19942,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CH",
+            "desc": "Chester postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19928,6 +19955,7 @@
           "type": "Polygon",
           "properties": {
             "name": "LL",
+            "desc": "Llandudno postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19942,6 +19970,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SY",
+            "desc": "Shrewsbury postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19954,6 +19983,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CW",
+            "desc": "Crewe postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19966,6 +19996,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SK",
+            "desc": "Stockport postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19978,6 +20009,7 @@
           "type": "Polygon",
           "properties": {
             "name": "S",
+            "desc": "Sheffield postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -19990,6 +20022,7 @@
           "type": "Polygon",
           "properties": {
             "name": "LN",
+            "desc": "Lincoln postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20002,6 +20035,7 @@
           "type": "Polygon",
           "properties": {
             "name": "NG",
+            "desc": "Nottingham postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20014,6 +20048,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SA",
+            "desc": "Swansea postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20026,6 +20061,7 @@
           "type": "Polygon",
           "properties": {
             "name": "LD",
+            "desc": "Llandrindod Wells postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20038,6 +20074,7 @@
           "type": "Polygon",
           "properties": {
             "name": "HR",
+            "desc": "Hereford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20050,6 +20087,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CF",
+            "desc": "Cardiff postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20062,6 +20100,7 @@
           "type": "Polygon",
           "properties": {
             "name": "WR",
+            "desc": "Worcester postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20074,6 +20113,7 @@
           "type": "Polygon",
           "properties": {
             "name": "TF",
+            "desc": "Telford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20086,6 +20126,7 @@
           "type": "Polygon",
           "properties": {
             "name": "ST",
+            "desc": "Stoke-on-Trent postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20098,6 +20139,7 @@
           "type": "Polygon",
           "properties": {
             "name": "WV",
+            "desc": "Wolverhampton postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20110,6 +20152,7 @@
           "type": "Polygon",
           "properties": {
             "name": "DY",
+            "desc": "Dudley postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20122,6 +20165,7 @@
           "type": "Polygon",
           "properties": {
             "name": "DE",
+            "desc": "Derby postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20136,6 +20180,7 @@
           "type": "Polygon",
           "properties": {
             "name": "PE",
+            "desc": "Peterborough postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20148,6 +20193,7 @@
           "type": "Polygon",
           "properties": {
             "name": "WS",
+            "desc": "Walsall postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20160,6 +20206,7 @@
           "type": "Polygon",
           "properties": {
             "name": "B",
+            "desc": "Birmingham postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20172,6 +20219,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CV",
+            "desc": "Coventry postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20184,6 +20232,7 @@
           "type": "Polygon",
           "properties": {
             "name": "LE",
+            "desc": "Leicester postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20196,6 +20245,7 @@
           "type": "Polygon",
           "properties": {
             "name": "NN",
+            "desc": "Northampton postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20208,6 +20258,7 @@
           "type": "Polygon",
           "properties": {
             "name": "NR",
+            "desc": "Norwich postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20220,6 +20271,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CB",
+            "desc": "Cambridge postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20232,6 +20284,7 @@
           "type": "Polygon",
           "properties": {
             "name": "MK",
+            "desc": "Milton Keynes postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20244,6 +20297,7 @@
           "type": "Polygon",
           "properties": {
             "name": "HP",
+            "desc": "Hemel Hempstead postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20256,6 +20310,7 @@
           "type": "Polygon",
           "properties": {
             "name": "LU",
+            "desc": "Luton postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20268,6 +20323,7 @@
           "type": "Polygon",
           "properties": {
             "name": "OX",
+            "desc": "Oxford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20280,6 +20336,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SG",
+            "desc": "Stevenage postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20292,6 +20349,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CM",
+            "desc": "Chelmsford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20304,6 +20362,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SS",
+            "desc": "Southend-on-Sea postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20316,6 +20375,7 @@
           "type": "Polygon",
           "properties": {
             "name": "PL",
+            "desc": "Plymouth postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20328,6 +20388,7 @@
           "type": "Polygon",
           "properties": {
             "name": "EX",
+            "desc": "Exeter postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20340,6 +20401,7 @@
           "type": "Polygon",
           "properties": {
             "name": "TA",
+            "desc": "Taunton postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20352,6 +20414,7 @@
           "type": "Polygon",
           "properties": {
             "name": "TQ",
+            "desc": "Torquay postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20364,6 +20427,7 @@
           "type": "Polygon",
           "properties": {
             "name": "BS",
+            "desc": "Bristol postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20376,6 +20440,7 @@
           "type": "Polygon",
           "properties": {
             "name": "DT",
+            "desc": "Dorchester postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20388,6 +20453,7 @@
           "type": "Polygon",
           "properties": {
             "name": "BA",
+            "desc": "Bath postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20400,6 +20466,7 @@
           "type": "Polygon",
           "properties": {
             "name": "BH",
+            "desc": "Bournemouth postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20412,6 +20479,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SP",
+            "desc": "Salisbury postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20424,6 +20492,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SN",
+            "desc": "Swindon postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20436,6 +20505,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SO",
+            "desc": "Southampton postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20448,6 +20518,7 @@
           "type": "Polygon",
           "properties": {
             "name": "RG",
+            "desc": "Reading postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20460,6 +20531,7 @@
           "type": "Polygon",
           "properties": {
             "name": "BN",
+            "desc": "Brighton postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20472,6 +20544,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SL",
+            "desc": "Slough postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20484,6 +20557,7 @@
           "type": "Polygon",
           "properties": {
             "name": "RH",
+            "desc": "Redhill postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20496,6 +20570,7 @@
           "type": "Polygon",
           "properties": {
             "name": "TN",
+            "desc": "Tunbridge Wells postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20508,6 +20583,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CT",
+            "desc": "Canterbury postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20520,6 +20596,7 @@
           "type": "Polygon",
           "properties": {
             "name": "ME",
+            "desc": "Rochester postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20532,6 +20609,7 @@
           "type": "Polygon",
           "properties": {
             "name": "JE",
+            "desc": "Jersey postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20544,6 +20622,7 @@
           "type": "Polygon",
           "properties": {
             "name": "GY",
+            "desc": "Guernsey postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20556,6 +20635,7 @@
           "type": "Polygon",
           "properties": {
             "name": "AL",
+            "desc": "St Albans postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20568,6 +20648,7 @@
           "type": "Polygon",
           "properties": {
             "name": "EN",
+            "desc": "Enfield postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20580,6 +20661,7 @@
           "type": "Polygon",
           "properties": {
             "name": "WD",
+            "desc": "Watford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20592,6 +20674,7 @@
           "type": "Polygon",
           "properties": {
             "name": "DA",
+            "desc": "Dartford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20604,6 +20687,7 @@
           "type": "Polygon",
           "properties": {
             "name": "RM",
+            "desc": "Romford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20616,6 +20700,7 @@
           "type": "Polygon",
           "properties": {
             "name": "BR",
+            "desc": "Bromley postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20628,6 +20713,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SE",
+            "desc": "London SE postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20640,6 +20726,7 @@
           "type": "Polygon",
           "properties": {
             "name": "IG",
+            "desc": "Ilford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20652,6 +20739,7 @@
           "type": "Polygon",
           "properties": {
             "name": "E",
+            "desc": "London E postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20664,6 +20752,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CR",
+            "desc": "Croydon postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20676,6 +20765,7 @@
           "type": "Polygon",
           "properties": {
             "name": "N",
+            "desc": "London N postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20688,6 +20778,7 @@
           "type": "Polygon",
           "properties": {
             "name": "EC",
+            "desc": "London EC postal area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20700,6 +20791,7 @@
           "type": "Polygon",
           "properties": {
             "name": "WC",
+            "desc": "London WC postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20712,6 +20804,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SW",
+            "desc": "London SW postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20724,6 +20817,7 @@
           "type": "Polygon",
           "properties": {
             "name": "SM",
+            "desc": "Sutton postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20736,6 +20830,7 @@
           "type": "Polygon",
           "properties": {
             "name": "TW",
+            "desc": "Twickenham postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20748,6 +20843,7 @@
           "type": "Polygon",
           "properties": {
             "name": "KT",
+            "desc": "Kingston upon Thames postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20760,6 +20856,7 @@
           "type": "Polygon",
           "properties": {
             "name": "GU",
+            "desc": "Guildford postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20772,6 +20869,7 @@
           "type": "Polygon",
           "properties": {
             "name": "UB",
+            "desc": "Southall postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20784,6 +20882,7 @@
           "type": "Polygon",
           "properties": {
             "name": "HA",
+            "desc": "Harrow postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20796,6 +20895,7 @@
           "type": "MultiPolygon",
           "properties": {
             "name": "PO",
+            "desc": "Portsmouth postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20816,6 +20916,7 @@
           "type": "MultiPolygon",
           "properties": {
             "name": "TR",
+            "desc": "Truro postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20828,6 +20929,7 @@
           "type": "Polygon",
           "properties": {
             "name": "GL",
+            "desc": "Gloucester postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20840,6 +20942,7 @@
           "type": "Polygon",
           "properties": {
             "name": "NP",
+            "desc": "Newport postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20852,6 +20955,7 @@
           "type": "Polygon",
           "properties": {
             "name": "IP",
+            "desc": "Ipswich postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20864,6 +20968,7 @@
           "type": "Polygon",
           "properties": {
             "name": "CO",
+            "desc": "Colchester postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20876,6 +20981,7 @@
           "type": "Polygon",
           "properties": {
             "name": "NW",
+            "desc": "London NW postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20888,6 +20994,7 @@
           "type": "Polygon",
           "properties": {
             "name": "W",
+            "desc": "London W postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20900,6 +21007,7 @@
           "type": "Polygon",
           "properties": {
             "name": "BL",
+            "desc": "Bolton postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
@@ -20912,6 +21020,7 @@
           "type": "Polygon",
           "properties": {
             "name": "OL",
+            "desc": "Oldham postcode area",
             "styleUrl": "#polystyle20",
             "fill-opacity": 0,
             "stroke-opacity": 1,
