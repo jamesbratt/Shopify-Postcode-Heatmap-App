@@ -182,6 +182,8 @@ export default function Heatmap() {
   const fetchData = async () => {
     setError(null);
     setIsLoading(true);
+    setPostcodeData(null);
+    setSelection({ area: "", value: "", desc: "" });
 
     await fetchMapData();
 
@@ -291,7 +293,11 @@ export default function Heatmap() {
     <Page>
       <TitleBar
         title="Customer Order Map"
-        primaryAction={{ content: "Download Map PNG", onAction: () => {} }}
+        primaryAction={{
+          content: "Download Map PNG",
+          onAction: () => {},
+          disabled: isLoading,
+        }}
       />
       <Layout>
         {error && (
@@ -322,15 +328,17 @@ export default function Heatmap() {
                     options={mapOptions}
                     onChange={setMapType}
                     value={mapType}
+                    disabled={isLoading}
                   />
                   <Select
                     label="Customer Order Data"
                     options={options}
                     onChange={onDateRangeChange}
                     value={dateRange}
+                    disabled={isLoading}
                   />
                 </FormLayout.Group>
-                <Button primary onClick={fetchData}>
+                <Button primary disabled={isLoading} onClick={fetchData}>
                   Update Map
                 </Button>
               </FormLayout>
@@ -391,6 +399,7 @@ export default function Heatmap() {
                 options={colorOptions}
                 onChange={setColour}
                 value={colour}
+                disabled={isLoading}
               />
             </FormLayout>
           </Card>

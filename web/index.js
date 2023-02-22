@@ -87,6 +87,7 @@ app.post("/api/export-orders", async (req, res, next) => {
               shippingAddress {
                 zip
                 provinceCode
+                country
               }
             }
           }
@@ -179,14 +180,18 @@ const aggregateUkPostcodeDitricts = async (rl) => {
   for await (const line of rl) {
     const parsedData = JSON.parse(line);
 
-    const postcode = parsedData?.shippingAddress?.zip;
+    const country = parsedData?.shippingAddress?.country;
 
-    if (postcode !== null && postcode !== undefined) {
-      const districtCode = getDistrictCode(postcode);
-      if (results[districtCode] === undefined) {
-        results[districtCode] = 1;
-      } else {
-        results[districtCode] = results[districtCode] + 1;
+    if (country === "United Kingdom") {
+      const postcode = parsedData?.shippingAddress?.zip;
+
+      if (postcode !== null && postcode !== undefined) {
+        const districtCode = getDistrictCode(postcode);
+        if (results[districtCode] === undefined) {
+          results[districtCode] = 1;
+        } else {
+          results[districtCode] = results[districtCode] + 1;
+        }
       }
     }
   }
@@ -198,21 +203,20 @@ const aggregateUsStates = async (rl) => {
 
   for await (const line of rl) {
     const parsedData = JSON.parse(line);
+    const country = parsedData?.shippingAddress?.country;
 
-    console.log(parsedData);
+    if (country === "United States") {
+      const provinceCode = parsedData?.shippingAddress?.provinceCode;
 
-    const provinceCode = parsedData?.shippingAddress?.provinceCode;
-
-    if (provinceCode !== null && provinceCode !== undefined) {
-      if (results[provinceCode] === undefined) {
-        results[provinceCode] = 1;
-        console.log(results[provinceCode]);
-      } else {
-        results[provinceCode] = results[provinceCode] + 1;
+      if (provinceCode !== null && provinceCode !== undefined) {
+        if (results[provinceCode] === undefined) {
+          results[provinceCode] = 1;
+        } else {
+          results[provinceCode] = results[provinceCode] + 1;
+        }
       }
     }
   }
-  console.log(results);
   return results;
 };
 
@@ -227,7 +231,7 @@ app.post("/api/stream", async (req, res) => {
     mapType === "UK"
       ? await aggregateUkPostcodeDitricts(rl)
       : await aggregateUsStates(rl);
-  console.log(results);
+
   return res.json(results);
 });
 

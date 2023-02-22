@@ -1,6 +1,5 @@
 import * as topojson from "topojson-client";
 import * as d3 from "d3";
-import { useState } from "react";
 
 const DOMAIN_LENGTH = 6;
 
