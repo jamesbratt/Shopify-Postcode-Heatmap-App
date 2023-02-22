@@ -350,6 +350,7 @@ export default function Heatmap() {
                     setSelection={onSelectArea}
                     geoJson={boundries}
                     projection={projection.value}
+                    selection={selection}
                   />
                 </>
               </div>

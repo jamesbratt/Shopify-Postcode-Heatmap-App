@@ -1,5 +1,6 @@
 import * as topojson from "topojson-client";
 import * as d3 from "d3";
+import { useState } from "react";
 
 const DOMAIN_LENGTH = 6;
 
@@ -26,8 +27,17 @@ const generateDomainValues = (postcodeData) => {
   }
 };
 
-const generatePaths = (data, path, colorScale, postcodeData, setSelection) => {
+const generatePaths = (
+  data,
+  path,
+  colorScale,
+  postcodeData,
+  setSelection,
+  selection
+) => {
   return data.map((feature) => {
+    const strokeWidth =
+      selection.area === feature.properties.name ? "1" : "0.2";
     const fill = postcodeData
       ? colorScale(postcodeData[feature.properties.name] ?? -1)
       : colorScale(12);
@@ -38,7 +48,7 @@ const generatePaths = (data, path, colorScale, postcodeData, setSelection) => {
         d={path(feature)}
         fill={fill}
         stroke="black"
-        strokeWidth="0.2"
+        strokeWidth={strokeWidth}
         style={{ cursor: "pointer" }}
         onClick={() =>
           setSelection(
@@ -60,7 +70,8 @@ const generateMap = (
   colour,
   imageSize,
   setSelection,
-  projection
+  projection,
+  selection
 ) => {
   const svg = d3.select("#uk-map");
   const zoom = d3
@@ -109,7 +120,8 @@ const generateMap = (
     path,
     colorScale,
     postcodeData,
-    setSelection
+    setSelection,
+    selection
   );
 
   return (
@@ -126,7 +138,9 @@ const UkPostcodeMap = ({
   setSelection,
   geoJson,
   projection,
+  selection,
 }) => {
+  // const [selectedProvince, setSelectedProvince] = useState(null)
   return (
     <div className="map">
       <div className="map-inner" style={{ position: "relative" }}>
@@ -143,7 +157,8 @@ const UkPostcodeMap = ({
                 colour,
                 getMapDimensions(),
                 setSelection,
-                projection
+                projection,
+                selection
               )
             : null}
         </svg>
