@@ -130,7 +130,7 @@ const generateMap = (
   );
 };
 
-const UkPostcodeMap = ({
+const ChoroplethMap = ({
   getMapDimensions,
   postcodeData,
   colour,
@@ -139,7 +139,6 @@ const UkPostcodeMap = ({
   projection,
   selection,
 }) => {
-  // const [selectedProvince, setSelectedProvince] = useState(null)
   return (
     <div className="map">
       <div className="map-inner" style={{ position: "relative" }}>
@@ -161,9 +160,28 @@ const UkPostcodeMap = ({
               )
             : null}
         </svg>
+        <svg
+          width="1000px"
+          height="1000px"
+          style={{ position: "fixed", left: "-999999999px" }}
+          className="map-canvas"
+          id="uk-map-hidden"
+        >
+          {geoJson
+            ? generateMap(
+                geoJson,
+                postcodeData,
+                colour,
+                { width: 1000, height: 1000 },
+                setSelection,
+                projection,
+                selection
+              )
+            : null}
+        </svg>
       </div>
     </div>
   );
 };
 
-export default UkPostcodeMap;
+export default ChoroplethMap;

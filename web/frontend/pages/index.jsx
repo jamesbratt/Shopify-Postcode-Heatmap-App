@@ -17,16 +17,19 @@ import {
 
 import { TitleBar } from "@shopify/app-bridge-react";
 
-import UkPostcodeMap from "../components/UkPostcodeMap";
+import ChoroplethMap from "../components/ChoroplethMap";
 
 import { useAuthenticatedFetch } from "../hooks";
+import { Canvg, presets } from "canvg";
 
 const SERVER_ERROR_MESSAGE =
   "We are really sorry. Something unexpected has gone wrong retreiving your order data. Please try again.";
 
 export default function Heatmap() {
   const mapContainerRef = useRef();
+  const canvasRef = useRef();
   const fetch = useAuthenticatedFetch();
+  const preset = presets.offscreen();
 
   const defaultProjection = d3.geoAlbers().rotate([0, 0]);
 
@@ -248,6 +251,24 @@ export default function Heatmap() {
     setProjection({ value: projectionMap[mapType] });
   };
 
+  const downloadImage = async () => {
+    const svg = document.getElementById("uk-map-hidden");
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const v = Canvg.fromString(ctx, svg.outerHTML, preset);
+
+    await v.render();
+
+    canvas.toBlob((blob) => {
+      const pngUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = pngUrl;
+      link.download = "map";
+      link.click();
+    });
+  };
+
   const onDateRangeChange = (range) => {
     setDateRange(range);
   };
@@ -290,121 +311,129 @@ export default function Heatmap() {
   const hasSelected = selection.area !== "";
 
   return (
-    <Page>
-      <TitleBar
-        title="Customer Order Map"
-        primaryAction={{
-          content: "Download Map PNG",
-          onAction: () => {},
-          disabled: isLoading,
-        }}
-      />
-      <Layout>
-        {error && (
+    <>
+      <Page>
+        <TitleBar
+          title="Customer Order Map"
+          primaryAction={{
+            content: "Download Map PNG",
+            onAction: downloadImage,
+            disabled: isLoading,
+          }}
+        />
+        <Layout>
+          {error && (
+            <Layout.Section>
+              <Banner
+                title="We were unable to retrieve your order data"
+                action={{ content: "Try Again", onAction: fetchData }}
+                status="critical"
+              >
+                <p>{error}</p>
+              </Banner>
+            </Layout.Section>
+          )}
           <Layout.Section>
-            <Banner
-              title="We were unable to retrieve your order data"
-              action={{ content: "Try Again", onAction: fetchData }}
-              status="critical"
-            >
-              <p>{error}</p>
-            </Banner>
+            <Card title="Get Started">
+              <Card.Section>
+                <p>
+                  Visualize the density of your customer orders for specific
+                  national geographic boundries within a given date range and
+                  identify your highest and lowest performing provinces.
+                </p>
+              </Card.Section>
+              <Card.Section>
+                <FormLayout>
+                  <FormLayout.Group>
+                    <Select
+                      label="Map boundries"
+                      options={mapOptions}
+                      onChange={setMapType}
+                      value={mapType}
+                      disabled={isLoading}
+                    />
+                    <Select
+                      label="Customer Order Data"
+                      options={options}
+                      onChange={onDateRangeChange}
+                      value={dateRange}
+                      disabled={isLoading}
+                    />
+                  </FormLayout.Group>
+                  <Button primary disabled={isLoading} onClick={fetchData}>
+                    Update Map
+                  </Button>
+                </FormLayout>
+              </Card.Section>
+            </Card>
           </Layout.Section>
-        )}
-        <Layout.Section>
-          <Card title="Get Started">
-            <Card.Section>
-              <p>
-                Visualize the density of your customer orders for specific
-                national geographic boundries within a given date range and
-                identify your highest and lowest performing provinces.
-              </p>
-            </Card.Section>
-            <Card.Section>
-              <FormLayout>
-                <FormLayout.Group>
-                  <Select
-                    label="Map boundries"
-                    options={mapOptions}
-                    onChange={setMapType}
-                    value={mapType}
-                    disabled={isLoading}
-                  />
-                  <Select
-                    label="Customer Order Data"
-                    options={options}
-                    onChange={onDateRangeChange}
-                    value={dateRange}
-                    disabled={isLoading}
-                  />
-                </FormLayout.Group>
-                <Button primary disabled={isLoading} onClick={fetchData}>
-                  Update Map
-                </Button>
-              </FormLayout>
-            </Card.Section>
-          </Card>
-        </Layout.Section>
-        <Layout.Section>
-          <Card title={`Order Density by ${mapTitle}`} sectioned>
-            <Card.Section>
-              <div ref={mapContainerRef}>
-                <>
-                  {isLoading ? <Spinner size="small" /> : null}
-                  <UkPostcodeMap
-                    getMapDimensions={getMapDimensions}
-                    postcodeData={postcodeData}
-                    colour={colour}
-                    setSelection={onSelectArea}
-                    geoJson={boundries}
-                    projection={projection.value}
-                    selection={selection}
-                  />
-                </>
-              </div>
-            </Card.Section>
-          </Card>
-        </Layout.Section>
-        <Layout.Section secondary>
-          <Card title="Boundry Data" sectioned>
-            {hasSelected ? (
-              <DescriptionList
-                spacing="tight"
-                items={[
-                  {
-                    term: "Boundry Code",
-                    description: selection.area,
-                  },
-                  {
-                    term: "No. Orders",
-                    description: selection.value,
-                  },
-                  {
-                    term: "Boundry Name",
-                    description: selection.desc,
-                  },
-                ]}
-              />
-            ) : (
-              <EmptyState heading="Click on the map to select a boundry">
-                <p>e.g. a postcode district or state/province</p>
-              </EmptyState>
-            )}
-          </Card>
+          <Layout.Section>
+            <Card title={`Order Density by ${mapTitle}`} sectioned>
+              <Card.Section>
+                <div ref={mapContainerRef}>
+                  <>
+                    {isLoading ? <Spinner size="small" /> : null}
+                    <ChoroplethMap
+                      getMapDimensions={getMapDimensions}
+                      postcodeData={postcodeData}
+                      colour={colour}
+                      setSelection={onSelectArea}
+                      geoJson={boundries}
+                      projection={projection.value}
+                      selection={selection}
+                    />
+                  </>
+                </div>
+              </Card.Section>
+            </Card>
+          </Layout.Section>
+          <Layout.Section secondary>
+            <Card title="Boundry Data" sectioned>
+              {hasSelected ? (
+                <DescriptionList
+                  spacing="tight"
+                  items={[
+                    {
+                      term: "Boundry Code",
+                      description: selection.area,
+                    },
+                    {
+                      term: "No. Orders",
+                      description: selection.value,
+                    },
+                    {
+                      term: "Boundry Name",
+                      description: selection.desc,
+                    },
+                  ]}
+                />
+              ) : (
+                <EmptyState heading="Click on the map to select a boundry">
+                  <p>e.g. a postcode district or state/province</p>
+                </EmptyState>
+              )}
+            </Card>
 
-          <Card title="Configure Map Styling" sectioned>
-            <FormLayout>
-              <Select
-                label="Colour"
-                options={colorOptions}
-                onChange={setColour}
-                value={colour}
-                disabled={isLoading}
-              />
-            </FormLayout>
-          </Card>
-        </Layout.Section>
-      </Layout>
-    </Page>
+            <Card title="Configure Map Styling" sectioned>
+              <FormLayout>
+                <Select
+                  label="Colour"
+                  options={colorOptions}
+                  onChange={setColour}
+                  value={colour}
+                  disabled={isLoading}
+                />
+              </FormLayout>
+            </Card>
+          </Layout.Section>
+        </Layout>
+      </Page>
+      <canvas
+        width="1000px"
+        height="1000px"
+        style={{ position: "fixed", left: "-999999999px" }}
+        ref={canvasRef}
+      />
+    </>
   );
 }
