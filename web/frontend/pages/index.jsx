@@ -13,6 +13,9 @@ import {
   EmptyState,
   DescriptionList,
   Button,
+  ButtonGroup,
+  Toast,
+  Frame,
 } from "@shopify/polaris";
 
 import { TitleBar } from "@shopify/app-bridge-react";
@@ -33,6 +36,12 @@ export default function Heatmap() {
 
   const defaultProjection = d3.geoAlbers().rotate([0, 0]);
 
+  const [operationId, setOperationId] = useState(null);
+  const [cancelStatus, setCancelStatus] = useState({
+    isError: false,
+    show: false,
+    message: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [selection, setSelection] = useState({ area: "", value: "", desc: "" });
   const [dateRange, setDateRange] = useState("today");
@@ -54,6 +63,8 @@ export default function Heatmap() {
   };
 
   const readFromStream = async (url) => {
+    setOperationId(null);
+
     try {
       const response = await fetch("/api/stream", {
         method: "POST",
@@ -118,6 +129,56 @@ export default function Heatmap() {
     };
 
     poll();
+  };
+
+  const cancelBulkOperation = async () => {
+    try {
+      const response = await fetch("/api/cancel-bulk-operation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: operationId,
+        }),
+      });
+      const jsonResponse = await response.json();
+
+      if (
+        jsonResponse.data.bulkOperationCancel.bulkOperation.status ===
+        "CANCELED"
+      ) {
+        setIsLoading(false);
+        setOperationId(null);
+        setCancelStatus({
+          show: true,
+          isError: false,
+          message: "Update has been successfully cancelled.",
+        });
+      } else if (
+        jsonResponse.data.bulkOperationCancel.bulkOperation.status ===
+        "COMPLETED"
+      ) {
+        setCancelStatus({
+          show: true,
+          isError: true,
+          message: "The update has already been completed.",
+        });
+      } else {
+        setCancelStatus({
+          show: true,
+          isError: true,
+          message: "Unable to cancel the update, please try again.",
+        });
+      }
+    } catch ({ message }) {
+      console.error(message);
+      setCancelStatus({
+        show: true,
+        isError: true,
+        message: "Unable to cancel the update, please try again.",
+      });
+    }
   };
 
   const calculateDateRange = () => {
@@ -211,6 +272,8 @@ export default function Heatmap() {
       if (!bulkOperationId) {
         throw Error("No bulk operation ID was created");
       }
+
+      setOperationId(bulkOperationId);
 
       checkBulkOperation(
         jsonResponse.data.bulkOperationRunQuery.bulkOperation.id
@@ -311,8 +374,18 @@ export default function Heatmap() {
   const hasSelected = selection.area !== "";
 
   return (
-    <>
+    <Frame>
       <Page>
+        {cancelStatus.show ? (
+          <Toast
+            onDismiss={() =>
+              setCancelStatus({ show: false, isError: false, message: "" })
+            }
+            content={cancelStatus.message}
+            error={cancelStatus.isError}
+            duration={1000}
+          />
+        ) : null}
         <TitleBar
           title="Customer Order Map"
           primaryAction={{
@@ -360,11 +433,27 @@ export default function Heatmap() {
                       disabled={isLoading}
                     />
                   </FormLayout.Group>
-                  <Button primary disabled={isLoading} onClick={fetchData}>
-                    Update Map
-                  </Button>
+                  <ButtonGroup>
+                    <Button primary disabled={isLoading} onClick={fetchData}>
+                      Update Map
+                    </Button>
+                  </ButtonGroup>
                 </FormLayout>
               </Card.Section>
+              {isLoading && operationId && (
+                <Card.Section>
+                  <Banner
+                    title="A bulk operation is being performed to retrieve your customer order data. Please do not refresh the page if you wish to cancel."
+                    action={{
+                      content: "Cancel Operation",
+                      onAction: cancelBulkOperation,
+                    }}
+                    status="info"
+                  >
+                    <p>{error}</p>
+                  </Banner>
+                </Card.Section>
+              )}
             </Card>
           </Layout.Section>
           <Layout.Section>
@@ -434,6 +523,6 @@ export default function Heatmap() {
         style={{ position: "fixed", left: "-999999999px" }}
         ref={canvasRef}
       />
-    </>
+    </Frame>
   );
 }

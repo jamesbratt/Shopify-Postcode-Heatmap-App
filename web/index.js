@@ -5,7 +5,6 @@ import express from "express";
 import serveStatic from "serve-static";
 
 import shopify from "./shopify.js";
-import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 import { GraphqlQueryError } from "@shopify/shopify-api";
 
@@ -69,7 +68,7 @@ app.post("/api/map-data", async (req, res, next) => {
   }
 });
 
-app.post("/api/export-orders", async (req, res, next) => {
+app.post("/api/export-orders", async (req, res) => {
   const session = res.locals.shopify.session;
   const client = new shopify.api.clients.Graphql({ session });
 
@@ -116,16 +115,53 @@ app.post("/api/export-orders", async (req, res, next) => {
     res.json(response.body);
   } catch (error) {
     if (error instanceof GraphqlQueryError) {
-      throw new Error(
-        `${error.message}\n${JSON.stringify(error.response, null, 2)}`
-      );
+      res.status(400).send({ success: false, error: error.message });
     } else {
-      throw error;
+      res
+        .status(500)
+        .send({ success: false, error: "An unexpected error has occured" });
     }
   }
 });
 
-app.post("/api/check-export-status", async (req, res, next) => {
+app.post("/api/cancel-bulk-operation", async (req, res) => {
+  const session = res.locals.shopify.session;
+  const client = new shopify.api.clients.Graphql({ session });
+
+  const operationId = req.body.id;
+
+  const query = `mutation {
+    bulkOperationCancel(id: "${operationId}") {
+      bulkOperation {
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }`;
+
+  try {
+    const response = await client.query({
+      data: {
+        query,
+      },
+    });
+
+    res.json(response.body);
+  } catch (error) {
+    if (error instanceof GraphqlQueryError) {
+      res.status(400).send({ success: false, error: error.message });
+    } else {
+      res
+        .status(500)
+        .send({ success: false, error: "An unexpected error has occured" });
+    }
+  }
+});
+
+app.post("/api/check-export-status", async (req, res) => {
   const session = res.locals.shopify.session;
   const client = new shopify.api.clients.Graphql({ session });
 
@@ -155,11 +191,11 @@ app.post("/api/check-export-status", async (req, res, next) => {
     res.json(response.body);
   } catch (error) {
     if (error instanceof GraphqlQueryError) {
-      throw new Error(
-        `${error.message}\n${JSON.stringify(error.response, null, 2)}`
-      );
+      res.status(400).send({ success: false, error: error.message });
     } else {
-      throw error;
+      res
+        .status(500)
+        .send({ success: false, error: "An unexpected error has occured" });
     }
   }
 });
@@ -233,20 +269,6 @@ app.post("/api/stream", async (req, res) => {
       : await aggregateUsStates(rl);
 
   return res.json(results);
-});
-
-app.get("/api/products/create", async (_req, res) => {
-  let status = 200;
-  let error = null;
-
-  try {
-    await productCreator(res.locals.shopify.session);
-  } catch (e) {
-    console.log(`Failed to process products/create: ${e.message}`);
-    status = 500;
-    error = e.message;
-  }
-  res.status(status).send({ success: status === 200, error });
 });
 
 app.use(serveStatic(STATIC_PATH, { index: false }));
