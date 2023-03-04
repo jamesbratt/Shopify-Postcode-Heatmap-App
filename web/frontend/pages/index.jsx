@@ -13,7 +13,6 @@ import {
   EmptyState,
   DescriptionList,
   Button,
-  ButtonGroup,
   Toast,
   Frame,
 } from "@shopify/polaris";
@@ -433,11 +432,9 @@ export default function Heatmap() {
                       disabled={isLoading}
                     />
                   </FormLayout.Group>
-                  <ButtonGroup>
-                    <Button primary disabled={isLoading} onClick={fetchData}>
-                      Update Map
-                    </Button>
-                  </ButtonGroup>
+                  <Button primary disabled={isLoading} onClick={fetchData}>
+                    Update Map
+                  </Button>
                 </FormLayout>
               </Card.Section>
               {isLoading && operationId && (
