@@ -386,7 +386,7 @@ export default function Heatmap() {
           />
         ) : null}
         <TitleBar
-          title="Customer Order Map"
+          title="Thermo Maps - Order Aggregator"
           primaryAction={{
             content: "Download Map PNG",
             onAction: downloadImage,
