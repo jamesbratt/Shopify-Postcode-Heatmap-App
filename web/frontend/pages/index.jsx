@@ -15,6 +15,7 @@ import {
   Button,
   Toast,
   Frame,
+  List,
 } from "@shopify/polaris";
 
 import { TitleBar } from "@shopify/app-bridge-react";
@@ -24,8 +25,19 @@ import ChoroplethMap from "../components/ChoroplethMap";
 import { useAuthenticatedFetch } from "../hooks";
 import { Canvg, presets } from "canvg";
 
-const SERVER_ERROR_MESSAGE =
-  "We are really sorry. Something unexpected has gone wrong retreiving your order data. Please try again.";
+const UNEXPECTED_ERROR_MESSAGE =
+  "We are really sorry. Something unexpected has gone wrong whilst updating your map. Please try again.";
+
+const CANCELLED_MESSAGE = "Your update has been cancelled.";
+
+const CANCEL_CONFIRM_MESSAGE =
+  "Please wait a moment whilst your update cancellation is confirmed.";
+
+const ALREADY_COMPLETED_MESSAGE =
+  "Your update cannot be cancelled as it has already been completed.";
+
+const CANCEL_FAILED_MESSAGE =
+  "We have been unable to cancel your update, please try again.";
 
 export default function Heatmap() {
   const mapContainerRef = useRef();
@@ -80,7 +92,7 @@ export default function Heatmap() {
       setIsLoading(false);
     } catch ({ message }) {
       console.error(message);
-      setError(SERVER_ERROR_MESSAGE);
+      setError(UNEXPECTED_ERROR_MESSAGE);
       setIsLoading(false);
     }
   };
@@ -115,14 +127,15 @@ export default function Heatmap() {
           setIsLoading(false);
         } else if (jsonResponse.data.node.status === "FAILED") {
           clearTimeout(timer);
-          setIsLoading(false);
-          throw Error(SERVER_ERROR_MESSAGE);
+          throw Error(UNEXPECTED_ERROR_MESSAGE);
+        } else if (jsonResponse.data.node.status === "CANCELLED") {
+          clearTimeout(timer);
+          throw Error(CANCELLED_MESSAGE);
         } else {
           timer = setTimeout(poll, 10000);
         }
       } catch ({ message }) {
-        console.error(message);
-        setError(SERVER_ERROR_MESSAGE);
+        setError(message);
         setIsLoading(false);
       }
     };
@@ -152,30 +165,22 @@ export default function Heatmap() {
         setCancelStatus({
           show: true,
           isError: false,
-          message: "Update has been successfully cancelled.",
+          message: CANCEL_CONFIRM_MESSAGE,
         });
       } else if (
         jsonResponse.data.bulkOperationCancel.bulkOperation.status ===
         "COMPLETED"
       ) {
-        setCancelStatus({
-          show: true,
-          isError: true,
-          message: "The update has already been completed.",
-        });
+        throw Error(ALREADY_COMPLETED_MESSAGE);
       } else {
-        setCancelStatus({
-          show: true,
-          isError: true,
-          message: "Unable to cancel the update, please try again.",
-        });
+        throw Error(CANCEL_FAILED_MESSAGE);
       }
     } catch ({ message }) {
       console.error(message);
       setCancelStatus({
         show: true,
         isError: true,
-        message: "Unable to cancel the update, please try again.",
+        message,
       });
     }
   };
@@ -248,11 +253,11 @@ export default function Heatmap() {
     setPostcodeData(null);
     setSelection({ area: "", value: "", desc: "" });
 
-    await fetchMapData();
-
-    const { after, before } = calculateDateRange();
-
     try {
+      await fetchMapData();
+
+      const { after, before } = calculateDateRange();
+
       const response = await fetch("/api/export-orders", {
         method: "POST",
         headers: {
@@ -279,7 +284,7 @@ export default function Heatmap() {
       );
     } catch ({ message }) {
       console.error(message);
-      setError(SERVER_ERROR_MESSAGE);
+      setError(UNEXPECTED_ERROR_MESSAGE);
       setIsLoading(false);
     }
   };
@@ -386,7 +391,7 @@ export default function Heatmap() {
           />
         ) : null}
         <TitleBar
-          title="Thermo Maps - Order Aggregator"
+          title="Configure a Map"
           primaryAction={{
             content: "Download Map PNG",
             onAction: downloadImage,
@@ -397,7 +402,7 @@ export default function Heatmap() {
           {error && (
             <Layout.Section>
               <Banner
-                title="We were unable to retrieve your order data"
+                title="Your update has not completed."
                 action={{ content: "Try Again", onAction: fetchData }}
                 status="critical"
               >
@@ -410,22 +415,39 @@ export default function Heatmap() {
               <Card.Section>
                 <p>
                   Visualize the density of your customer orders for specific
-                  national geographic boundries within a given date range and
-                  identify your highest and lowest performing provinces.
+                  geographic boundries within a given date range and identify
+                  your highest and lowest performing provinces.
                 </p>
+              </Card.Section>
+              <Card.Section>
+                <List type="bullet">
+                  <List.Item>
+                    You can click on a certain boundry (e.g. a province or
+                    state) to view the number of orders for that specific
+                    boundry.
+                  </List.Item>
+                  <List.Item>
+                    Zoom in on the map by either double clicking or using the
+                    mouse wheel. The map can also be dragged using the mouse.
+                  </List.Item>
+                  <List.Item>
+                    Download an image of your map by clicking the download
+                    button in the top right.
+                  </List.Item>
+                </List>
               </Card.Section>
               <Card.Section>
                 <FormLayout>
                   <FormLayout.Group>
                     <Select
-                      label="Map boundries"
+                      label="Map type"
                       options={mapOptions}
                       onChange={setMapType}
                       value={mapType}
                       disabled={isLoading}
                     />
                     <Select
-                      label="Customer Order Data"
+                      label="Orders by date range"
                       options={options}
                       onChange={onDateRangeChange}
                       value={dateRange}
@@ -440,9 +462,9 @@ export default function Heatmap() {
               {isLoading && operationId && (
                 <Card.Section>
                   <Banner
-                    title="A bulk operation is being performed to retrieve your customer order data. Please do not refresh the page if you wish to cancel."
+                    title="Your map is being updated. This may take a moment. Please do not leave the page until the update has completed or been cancelled."
                     action={{
-                      content: "Cancel Operation",
+                      content: "Cancel Update",
                       onAction: cancelBulkOperation,
                     }}
                     status="info"
