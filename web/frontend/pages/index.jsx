@@ -434,6 +434,10 @@ export default function Heatmap() {
                     Download an image of your map by clicking the download
                     button in the top right.
                   </List.Item>
+                  <List.Item>
+                    This app does not store any customer order data. It only
+                    aggregates orders by zip code.
+                  </List.Item>
                 </List>
               </Card.Section>
               <Card.Section>
