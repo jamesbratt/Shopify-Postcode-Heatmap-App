@@ -422,9 +422,9 @@ export default function Heatmap() {
               <Card.Section>
                 <List type="bullet">
                   <List.Item>
-                    You can click on a certain boundry (e.g. a province or
+                    You can click on a certain boundary (e.g. a province or
                     state) to view the number of orders for that specific
-                    boundry.
+                    boundary.
                   </List.Item>
                   <List.Item>
                     Zoom in on the map by either double clicking or using the
@@ -500,13 +500,13 @@ export default function Heatmap() {
             </Card>
           </Layout.Section>
           <Layout.Section secondary>
-            <Card title="Boundry Data" sectioned>
+            <Card title="Boundary Data" sectioned>
               {hasSelected ? (
                 <DescriptionList
                   spacing="tight"
                   items={[
                     {
-                      term: "Boundry Code",
+                      term: "Boundary Code",
                       description: selection.area,
                     },
                     {
@@ -514,13 +514,13 @@ export default function Heatmap() {
                       description: selection.value,
                     },
                     {
-                      term: "Boundry Name",
+                      term: "Boundary Name",
                       description: selection.desc,
                     },
                   ]}
                 />
               ) : (
-                <EmptyState heading="Click on the map to select a boundry">
+                <EmptyState heading="Click on the map to select a boundary">
                   <p>e.g. a postcode district or state/province</p>
                 </EmptyState>
               )}
