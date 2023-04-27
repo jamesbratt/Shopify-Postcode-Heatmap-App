@@ -31,11 +31,24 @@ app.get(
   shopify.auth.callback(),
   shopify.redirectToShopifyOrAppRoot()
 );
+
 app.post(
   shopify.config.webhooks.path,
   // @ts-ignore
   shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
 );
+
+app.post("/api/customers/data_request", async (req, res) => {
+  res.status(200).send();
+});
+
+app.post("/api/customers/redact", async (req, res) => {
+  res.status(200).send();
+});
+
+app.post("/api/shop/redact", async (req, res) => {
+  res.status(200).send();
+});
 
 // All endpoints after this point will require an active session
 app.use("/api/*", shopify.validateAuthenticatedSession());
@@ -262,18 +275,6 @@ app.post("/api/stream", async (req, res) => {
       : await aggregateUsStates(rl);
 
   return res.json(results);
-});
-
-app.post("/api/customers/data_request", async (req, res) => {
-  res.status(200).send({ success: true });
-});
-
-app.post("/api/customers/redact", async (req, res) => {
-  return res.status(200).send({ success: true });
-});
-
-app.post("/api/shop/redact", async (req, res) => {
-  return res.status(200).send({ success: true });
 });
 
 app.use(serveStatic(STATIC_PATH, { index: false }));
