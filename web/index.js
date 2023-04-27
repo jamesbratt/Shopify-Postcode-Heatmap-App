@@ -264,6 +264,18 @@ app.post("/api/stream", async (req, res) => {
   return res.json(results);
 });
 
+app.post("/api/customers/data_request", async (req, res) => {
+  res.status(200).send({ success: true });
+});
+
+app.post("/api/customers/redact", async (req, res) => {
+  return res.status(200).send({ success: true });
+});
+
+app.post("/api/shop/redact", async (req, res) => {
+  return res.status(200).send({ success: true });
+});
+
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
 // eslint-disable-next-line no-unused-vars
