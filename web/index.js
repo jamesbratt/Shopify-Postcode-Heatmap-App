@@ -76,7 +76,7 @@ app.post("/api/export-orders", async (req, res) => {
           edges {
             node {
               id
-              shippingAddress {
+              billingAddress {
                 zip
                 provinceCode
                 country
@@ -209,10 +209,10 @@ const aggregateUkPostcodeDitricts = async (rl) => {
   for await (const line of rl) {
     const parsedData = JSON.parse(line);
 
-    const country = parsedData?.shippingAddress?.country;
+    const country = parsedData?.billingAddress?.country;
 
     if (country === "United Kingdom") {
-      const postcode = parsedData?.shippingAddress?.zip;
+      const postcode = parsedData?.billingAddress?.zip;
 
       if (postcode !== null && postcode !== undefined) {
         const districtCode = getDistrictCode(postcode);
@@ -232,10 +232,10 @@ const aggregateUsStates = async (rl) => {
 
   for await (const line of rl) {
     const parsedData = JSON.parse(line);
-    const country = parsedData?.shippingAddress?.country;
+    const country = parsedData?.billingAddress?.country;
 
     if (country === "United States") {
-      const provinceCode = parsedData?.shippingAddress?.provinceCode;
+      const provinceCode = parsedData?.billingAddress?.provinceCode;
 
       if (provinceCode !== null && provinceCode !== undefined) {
         if (results[provinceCode] === undefined) {
