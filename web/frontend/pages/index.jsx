@@ -503,10 +503,10 @@ export default function Heatmap() {
             <Card title="Boundary Data" sectioned>
               {hasSelected ? (
                 <DescriptionList
-                  spacing="tight"
+                  spacing="loose"
                   items={[
                     {
-                      term: "Boundary Code",
+                      term: `Code`,
                       description: selection.area,
                     },
                     {
@@ -514,7 +514,7 @@ export default function Heatmap() {
                       description: selection.value,
                     },
                     {
-                      term: "Boundary Name",
+                      term: "Name",
                       description: selection.desc,
                     },
                   ]}
