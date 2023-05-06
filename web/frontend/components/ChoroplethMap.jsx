@@ -14,12 +14,11 @@ const generateDomainValues = (postcodeData) => {
 
     for (let i = 0; i < DOMAIN_LENGTH; i++) {
       if (i === 0) {
-        domains.push(Math.round(minValue));
+        domains.push(minValue);
       } else {
-        domains.push(domains[i - 1] + incrementBy);
+        domains.push(domains[i - 1] + (incrementBy === 0 ? 1 : incrementBy));
       }
     }
-
     return domains;
   } else {
     return [];
@@ -63,6 +62,25 @@ const generatePaths = (
   });
 };
 
+const generateLegend = (data, colorScale) => {
+  const scaleValues = data.reverse();
+  return scaleValues.map((scaleValue, i) => {
+    const fill = colorScale(scaleValue - 1);
+    const x = 0;
+    const y = Math.floor(i * 25) + 6;
+    return (
+      <g key={scaleValue}>
+        <text fontSize={"10px"} x={20} y={Math.floor(i * 25) + 10}>
+          {i === data.length - 1 && data.length - 1 === 0
+            ? "0"
+            : `${`${scaleValues[i]}`}`}
+        </text>
+        <rect width={15} height={25} x={x} y={y} fill={fill} />
+      </g>
+    );
+  });
+};
+
 const generateMap = (
   data,
   postcodeData,
@@ -83,7 +101,13 @@ const generateMap = (
     .on("zoom", zoomed);
 
   function zoomed(event) {
-    const g = d3.select("g");
+    const g = d3.selectAll("g");
+    g.selectAll("rect") // To prevent stroke width from scaling
+      .attr("transform", event.transform);
+
+    g.selectAll("text") // To prevent stroke width from scaling
+      .attr("transform", event.transform);
+
     g.selectAll("path") // To prevent stroke width from scaling
       .attr("transform", event.transform);
   }
@@ -123,8 +147,11 @@ const generateMap = (
     selection
   );
 
+  const legend = generateLegend(domainValues, colorScale);
+
   return (
     <>
+      {legend}
       <g>{draw}</g>
     </>
   );
