@@ -61,6 +61,8 @@ app.post("/api/map-data", async (req, res, next) => {
   const mapData = {
     UK: "./geodata/postcodedistricts.json",
     US: "./geodata/usstates.json",
+    FRANCE: "./geodata/frenchprovinces.json",
+    GERMANY: "./geodata/germanpostcodedistricts.json",
   };
 
   try {
@@ -206,6 +208,66 @@ app.post("/api/check-export-status", async (req, res) => {
   }
 });
 
+const aggregateFrancePostcodeDistricts = async (rl) => {
+  const getDistrictCode = (postcode) => {
+    const trimmedPostcode = postcode.replace(/\s+/g, "");
+    const districtCode = trimmedPostcode.substring(0, 2).trim();
+    return districtCode;
+  };
+
+  let results = {};
+
+  for await (const line of rl) {
+    const parsedData = JSON.parse(line);
+
+    const country = parsedData?.billingAddress?.country;
+
+    if (country === "France") {
+      const postcode = parsedData?.billingAddress?.zip;
+
+      if (postcode !== null && postcode !== undefined) {
+        const districtCode = getDistrictCode(postcode);
+        if (results[districtCode] === undefined) {
+          results[districtCode] = 1;
+        } else {
+          results[districtCode] = results[districtCode] + 1;
+        }
+      }
+    }
+  }
+  return results;
+};
+
+const aggregateGermanyPostcodeDistricts = async (rl) => {
+  const getDistrictCode = (postcode) => {
+    const trimmedPostcode = postcode.replace(/\s+/g, "");
+    const districtCode = trimmedPostcode.substring(0, 2).trim();
+    return districtCode;
+  };
+
+  let results = {};
+
+  for await (const line of rl) {
+    const parsedData = JSON.parse(line);
+
+    const country = parsedData?.billingAddress?.country;
+
+    if (country === "Germany") {
+      const postcode = parsedData?.billingAddress?.zip;
+
+      if (postcode !== null && postcode !== undefined) {
+        const districtCode = getDistrictCode(postcode);
+        if (results[districtCode] === undefined) {
+          results[districtCode] = 1;
+        } else {
+          results[districtCode] = results[districtCode] + 1;
+        }
+      }
+    }
+  }
+  return results;
+};
+
 const aggregateUkPostcodeDitricts = async (rl) => {
   const getDistrictCode = (postcode) => {
     const trimmedPostcode = postcode.replace(/\s+/g, "");
@@ -269,10 +331,22 @@ app.post("/api/stream", async (req, res) => {
     input: got.stream(req.body.url),
   });
 
-  const results =
-    mapType === "UK"
-      ? await aggregateUkPostcodeDitricts(rl)
-      : await aggregateUsStates(rl);
+  let results = null;
+  if (mapType === "UK") {
+    results = await aggregateUkPostcodeDitricts(rl);
+  }
+
+  if (mapType === "US") {
+    results = await aggregateUsStates(rl);
+  }
+
+  if (mapType === "FRANCE") {
+    results = await aggregateFrancePostcodeDistricts(rl);
+  }
+
+  if (mapType === "GERMANY") {
+    results = await aggregateGermanyPostcodeDistricts(rl);
+  }
 
   return res.json(results);
 });

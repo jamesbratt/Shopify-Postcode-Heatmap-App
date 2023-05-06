@@ -306,12 +306,16 @@ export default function Heatmap() {
     const mapTypeTitle = {
       UK: "UK Postcode District",
       US: "US State",
+      FRANCE: "France Postcode District",
+      GERMANY: "Germany Postcode District",
     };
 
     setMapTitle(mapTypeTitle[mapType]);
 
     const projectionMap = {
       UK: d3.geoAlbers().rotate([0, 0]),
+      FRANCE: d3.geoAlbers().rotate([0, 0]),
+      GERMANY: d3.geoAlbers().rotate([0, 0]),
       US: d3.geoAlbersUsa(),
     };
 
@@ -367,6 +371,8 @@ export default function Heatmap() {
   ];
 
   const mapOptions = [
+    { label: "France Postcode Districts", value: "FRANCE" },
+    { label: "Germany Postcode Districts", value: "GERMANY" },
     { label: "UK Postcode Districts", value: "UK" },
     { label: "US States", value: "US" },
   ];

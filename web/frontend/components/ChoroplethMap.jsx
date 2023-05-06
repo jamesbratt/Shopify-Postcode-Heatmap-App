@@ -4,7 +4,7 @@ import * as d3 from "d3";
 const DOMAIN_LENGTH = 6;
 
 const generateDomainValues = (postcodeData) => {
-  if (postcodeData) {
+  if (postcodeData && Object.keys(postcodeData).length > 0) {
     const minValue = Math.min(...Object.values(postcodeData));
     const maxValue = Math.max(...Object.values(postcodeData));
 
@@ -125,8 +125,12 @@ const generateMap = (
 
   const countiesJson = topojson.feature(data, data.objects["geojson"]);
 
-  projection.fitSize(
-    [parseInt(imageSize.width), parseInt(imageSize.height)],
+  const padding = postcodeData && Object.keys(postcodeData).length > 0 ? 60 : 0;
+  projection.fitExtent(
+    [
+      [padding, 0],
+      [parseInt(imageSize.width), parseInt(imageSize.height)],
+    ],
     countiesJson
   );
 
